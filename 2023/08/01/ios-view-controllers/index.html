@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>View Controllers | Shibainu1096&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="View controller用来管理UIKit app的界面。每个View Controller管理一个root view，这个root view可以包含一些subviews。 每个app至少有一个View Controller，这个View Controller的内容填满主Window。如果你的app有更多内容需要展示，你可以创建更多的View Controller，每个View Contro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="View Controllers">
+<meta property="og:url" content="http://example.com/2023/08/01/ios-view-controllers/index.html">
+<meta property="og:site_name" content="Shibainu1096&#39;s Blog">
+<meta property="og:description" content="View controller用来管理UIKit app的界面。每个View Controller管理一个root view，这个root view可以包含一些subviews。 每个app至少有一个View Controller，这个View Controller的内容填满主Window。如果你的app有更多内容需要展示，你可以创建更多的View Controller，每个View Contro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/08/01/ios-view-controllers/view-controller-architecture@2x.png">
+<meta property="og:image" content="http://example.com/2023/08/01/ios-view-controllers/view-controller-types@2x.png">
+<meta property="og:image" content="http://example.com/2023/08/01/ios-view-controllers/interface-types@2x.png">
+<meta property="og:image" content="http://example.com/2023/08/01/ios-view-controllers/view-controller-hierarchy@2x.png">
+<meta property="og:image" content="http://example.com/2023/08/01/ios-view-controllers/VCPG-custom-subclasses@2x.png">
+<meta property="og:image" content="http://example.com/2023/08/01/ios-view-controllers/storyboard-add-views@2x.png">
+<meta property="article:published_time" content="2023-08-01T10:49:57.000Z">
+<meta property="article:modified_time" content="2023-08-01T07:12:47.768Z">
+<meta property="article:author" content="shibainu1096">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/08/01/ios-view-controllers/view-controller-architecture@2x.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Shibainu1096's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shibainu1096&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ios-view-controllers" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/08/01/ios-view-controllers/" class="article-date">
+  <time class="dt-published" datetime="2023-08-01T10:49:57.000Z" itemprop="datePublished">2023-08-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      View Controllers
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><code>View controller</code>用来管理<code>UIKit</code> app的界面。每个<code>View Controller</code>管理一个root view，这个root view可以包含一些subviews。</p>
+<p>每个app至少有一个<code>View Controller</code>，这个<code>View Controller</code>的内容填满主<code>Window</code>。<br>如果你的app有更多内容需要展示，你可以创建更多的<code>View Controller</code>，每个<code>View Controller</code>管理一个子界面。</p>
+<p><code>UIKit</code>提供了一些标准的<code>View Controller</code>，例如导航控制器（navigation controller）和分栏控制器（split view controller）。</p>
+<h1 id="管理app的Window里的内容"><a href="#管理app的Window里的内容" class="headerlink" title="管理app的Window里的内容"></a>管理app的Window里的内容</h1><p>你的应用程序界面中的每个场景都包含一个窗口对象（<code>Window</code>）和一个或多个视图对象（<code>View</code>）。<code>Window</code>作为不可见的容器，用于包含其余的UI元素，它是<code>View</code>的顶级容器，并将事件路由到<code>View</code>。</p>
+<p><code>View</code>则提供用户在屏幕上看到文本、图像和其他类型的自定义内容等实际内容。<code>Window</code>是长期存在的对象，只有在销毁整个场景的UI时才会将其销毁。相比之下，你可能会频繁地更改Window中的View，特别是当你想要显示新的内容时。</p>
+<img src="/2023/08/01/ios-view-controllers/view-controller-architecture@2x.png" class="">
+
+<p>为了有效的管理你的View，并且能够轻松的将它们从Window中添加或删除，UIKit提供了<code>View Controller</code>。<code>View Controller</code>管理app的一组<code>View</code>，并保持更新这些<code>View</code>中的信息。</p>
+<p>每个<code>Window</code>都有一个<code>Root View Controller</code>，可以用它来指定Window的初试<code>View</code>的集合。当需要改变这组<code>View</code>时，告诉<code>UIKit</code>展示或者移除其他的<code>View Controller</code>。<code>UIKit</code>会把一组<code>View</code>换成另一组，并通过<code>View Controller</code>对象来管理整个app的界面</p>
+<h2 id="为每个单独的页面定义View-Controller"><a href="#为每个单独的页面定义View-Controller" class="headerlink" title="为每个单独的页面定义View Controller"></a>为每个单独的页面定义View Controller</h2><p>在设计app的UI时，首先要把UI分成不同内容的页面。每个页面会有不同的方式去展示数据。</p>
+<p>重要的是每个页面的结构和整体外观，而非所要展示的具体数据。例如，一个app可能有一个页面展示一个列表，另一个页面展示一个表格，但是这两个页面都是用来展示数据的。</p>
+<img src="/2023/08/01/ios-view-controllers/view-controller-types@2x.png" class="">
+
+<p>每个View Controller需要做以下的事情：</p>
+<ul>
+<li>为View提供数据，并且在数据改变时更新View</li>
+<li>将数据变化反馈给数据模型对象</li>
+<li>调整大小、位置和View的可见性来适配当前环境</li>
+<li>促进切换到其他内容页面的过渡</li>
+</ul>
+<h2 id="为你的内容选择Navigation-model"><a href="#为你的内容选择Navigation-model" class="headerlink" title="为你的内容选择Navigation model"></a>为你的内容选择Navigation model</h2><p>UIKit提供了<code>Container View Controller</code>，实现了通用的导航（Navigation）模型</p>
+<p><code>Container View Controller</code>是一个特殊的<code>View Controller</code>，它用来管理其他的子<code>View Controller</code></p>
+<p>永远使用UIKit的<code>Container View Controller</code>来实现通用的导航模型：</p>
+<ul>
+<li>UINavigationController</li>
+<li>UISplitViewController</li>
+<li>UITabBarController</li>
+<li>UIPageViewController</li>
+</ul>
+<img src="/2023/08/01/ios-view-controllers/interface-types@2x.png" class="">
+
+<h2 id="给每个Window分配一个Root-View-Controller"><a href="#给每个Window分配一个Root-View-Controller" class="headerlink" title="给每个Window分配一个Root View Controller"></a>给每个Window分配一个Root View Controller</h2><p>如果</p>
+<p>如果用代码创建你的app的UI，你需要在创建Window后，给Window的<code>rootViewController</code>属性赋值。这个属性的值是一个<code>View Controller</code>对象，这个对象管理Window的根View。</p>
+<img src="/2023/08/01/ios-view-controllers/view-controller-hierarchy@2x.png" class="">
+
+<h2 id="Content-View-Controller"><a href="#Content-View-Controller" class="headerlink" title="Content View Controller"></a>Content View Controller</h2><p>所有的UIKit app非常依赖于<code>View Controller</code>来展示内容。我们通常会自定义<code>View Controller</code>来管理我们的<code>View</code>。</p>
+<p>绝大多数的自定义<code>View Controller</code>都是<code>Content View Controller</code>。<code>Content View Controller</code>拥有它们所有的<code>View</code>，并且管理这些<code>View</code>的交互。</p>
+<p>与<code>Content View Controller</code>相对的是<code>Container View Controller</code>，它将其他的<code>View Controller</code>内容整合到它的<code>View</code>层级中。</p>
+<img src="/2023/08/01/ios-view-controllers/VCPG-custom-subclasses@2x.png" class="">
+
+<p>为了定义一个<code>Content View Controller</code>，首先需要继承<code>UIViewController</code>。如果你的界面有table view或者collection view，你可以继承<code>UITableViewController</code>或者<code>UICollectionViewController</code>。</p>
+<h2 id="往View-Controller中添加View"><a href="#往View-Controller中添加View" class="headerlink" title="往View Controller中添加View"></a>往View Controller中添加View</h2><p>UIViewController类有一个<code>view</code>属性，这个属性是一个<code>UIView</code>对象，这个对象是<code>View Controller</code>管理的<code>View</code>层级的<code>root view</code>。<br>你可以往那个<code>root view</code>上添加自定义的<code>view</code>。</p>
+<img src="/2023/08/01/ios-view-controllers/storyboard-add-views@2x.png" class="">
+
+<p>往view controller加完view后，永远使用Auto Layout constriants来设置大小和位置。</p>
+<h2 id="存储重要view的引用"><a href="#存储重要view的引用" class="headerlink" title="存储重要view的引用"></a>存储重要view的引用</h2><p>有时需要在运行时访问view controller的某些view。例如，你可能需要在运行时改变view的外观，或者在用户点击view时执行某些操作。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> imageView : <span class="type">UIImageView</span>?</span><br><span class="line"><span class="keyword">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> button : <span class="type">UIButton</span>?</span><br></pre></td></tr></table></figure>
+<p>如果使用storyboard，outlet会在storyboard加载时被自动设置。UIKit在viewDidLoad()方法之前重建连接outlets，因此可以在这个方法里访问这些属性的对象。<br>如果使用代码创建view controller，你需要在view controller的初始化方法里设置适当的属性。</p>
+<h2 id="处理views和controls里的事件"><a href="#处理views和controls里的事件" class="headerlink" title="处理views和controls里的事件"></a>处理views和controls里的事件</h2><p>Controls使用target-action设计模式来报告用户交互，一些view会post notification或者调用delegate方法来响应这些改动。<br>View controller需要知道这些交互，以便更新View。有若干种方法：</p>
+<ul>
+<li>在View Controller实现delegate和action方法<ul>
+<li>简单易实现，但不灵活难以测试</li>
+</ul>
+</li>
+<li>在View Controller类的extension中实现delegate和action方法<ul>
+<li>分离了事件处理的代码，更容易测试</li>
+</ul>
+</li>
+<li>在专用对象中实现delegate和action方法，然后将相关信息转发给View Controller<ul>
+<li>最具有灵活性和可复用性，容易测试</li>
+</ul>
+</li>
+</ul>
+<p>为了响应用户与controls的交互，定义一个action方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@IBAction</span> <span class="keyword">func</span> <span class="title function_">doSomthing</span>()</span><br><span class="line"><span class="keyword">@IBAction</span> <span class="keyword">func</span> <span class="title function_">doSomething</span>(<span class="params">sender</span>: <span class="type">UIControl</span>)</span><br><span class="line"><span class="keyword">@IBAction</span> <span class="keyword">func</span> <span class="title function_">doSomething</span>(<span class="params">sender</span>: <span class="type">UIControl</span>, <span class="params">forEvent</span> <span class="params">event</span>: <span class="type">UIEvent</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="View的展示"><a href="#View的展示" class="headerlink" title="View的展示"></a>View的展示</h2><p>当你把view controller展示到屏幕上时，UIKit需要首先加载和配置相应的View：</p>
+<ol>
+<li>使用<code>init(coder:)</code>方法创建每个view</li>
+<li>在View Controller中连接view到对应的action和outlet</li>
+<li>调用每个view和View Controller的<code>awakeFromNib()</code>方法</li>
+<li>给View Controller的<code>view</code>属性赋值<code>view hierarchy</code></li>
+<li>调用View Controller的<code>viewDidLoad()</code>方法</li>
+</ol>
+<p>当你的视图首次出现在屏幕上时，执行任何最终与视图相关的任务。UIKit在以下方式中通知拥有视图控制器的对象它的视图即将出现在屏幕上，并更新这些视图的布局以适应当前环境：</p>
+<ol>
+<li>在过渡开始时调用<code>viewWillAppear(_:)</code></li>
+<li>将<code>View</code>添加到<code>view hierarchy</code></li>
+<li>更新<code>View Controller</code>及其<code>View</code>的trait collections（特性集合）</li>
+<li>更新<code>View</code>的几何属性，包括其在其<code>superview</code>中的大小和位置。更新布局边距（layout margins）和安全区域（safe area），并在需要时调用 <code>viewLayoutMarginsDidChange()</code> 和 <code>viewSafeAreaInsetsDidChange()</code></li>
+<li>调用<code>viewIsAppearing(_:)</code>方法，让你知道<code>View Controller</code>的<code>View</code>正在出现在屏幕上</li>
+<li>调用<code>viewWillLayoutSubviews()</code>方法</li>
+<li>更新<code>view hierarchy</code>的布局</li>
+<li>调用<code>viewDidLayoutSubviews()</code>方法</li>
+<li>将<code>View</code>显示在屏幕上</li>
+<li>在任何动画完成后调用<code>View Controller</code>的<code>viewDidAppear(_:)</code>方法</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="clkrypfhx0001i8oz0za2bk88" data-title="View Controllers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/07/31/verb/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">动词</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/">日语</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/%E4%BA%94%E5%8D%81%E9%9F%B3%E5%9B%BE/">五十音图</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/%E8%AF%AD%E6%B3%95/">语法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AF%AD/" rel="tag">日语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">个人项目</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/tags/%E6%97%A5%E8%AF%AD/" style="font-size: 15px;">日语</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 15px;">计算机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/08/01/ios-view-controllers/">View Controllers</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/31/verb/">动词</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/31/swift-encode-decode/">Encode和Decode</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/30/japanese-app/">日语学习App</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/30/adjective/">日语形容词</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 shibainu1096<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
