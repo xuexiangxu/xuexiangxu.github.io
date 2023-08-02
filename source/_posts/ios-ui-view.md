@@ -1,7 +1,9 @@
 ---
 title: ios-ui-view
 date: 2023-08-02 11:48:26
-tags:
+tags: [计算机, 学习]
+categories:
+- [计算机, iOS]
 ---
 View和Control是app的UI的基本元素。
 
