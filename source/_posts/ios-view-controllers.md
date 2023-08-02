@@ -1,5 +1,5 @@
 ---
-title: View Controllers
+title: View Controller
 date: 2023-08-01 10:49:57
 tags: [计算机, 学习]
 categories:
