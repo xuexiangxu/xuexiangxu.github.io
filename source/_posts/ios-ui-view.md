@@ -137,8 +137,6 @@ class UICollectionView : UIScrollView
 ### UIStackView
 [Documentation](https://developer.apple.com/documentation/uikit/uistackview)
 
-{% asset_img ui-stack-view@2x.png %}
-
 ```swift
 @MainActor
 class UIStackView : UIView
