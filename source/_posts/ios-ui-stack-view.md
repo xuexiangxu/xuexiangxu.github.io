@@ -25,7 +25,7 @@ Stack View能够使用Auto Layout的能力，创建自适应设备方向、屏�
 ## Stack View和自动布局（Auto Layout）
 Stack View把它第一个和最后一个View与Stack的轴的边界（edge）对齐
 
-如果设置了`isLayoutMarginsRelativeArrangement`属性为true，Stack View会把它的内容pin到relevant margin上，而不是edge上
+如果设置了`isLayoutMarginsRelativeArrangement`属性为true，Stack View会包含margin的空间
 
 对于除了`UIStackView.Distribution.fillEqually`以外的distribution，Stack View会根据每个arranged view到`intrinsiceContentSize`的属性来计算它沿着Stack轴到大小
 
