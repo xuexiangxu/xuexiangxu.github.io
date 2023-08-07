@@ -121,7 +121,179 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="clkwmckiv000aifoz5x396jnk" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cll0lbap4000fi9os1dw5h0it" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ui-vc-lifecycle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/08/04/ui-vc-lifecycle/" class="article-date">
+  <time class="dt-published" datetime="2023-08-04T13:33:28.000Z" itemprop="datePublished">2023-08-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/08/04/ui-vc-lifecycle/">UIViewController生命周期</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="viewDidLoad"><a href="#viewDidLoad" class="headerlink" title="viewDidLoad()"></a><code>viewDidLoad()</code></h2><p>在content view在内存中被创建，或者从Storyboard加载时调用<br>适合设置Notification、从Internet加载数据，设置一些UI的初始状态</p>
+<h2 id="viewWillAppear-animated-Bool"><a href="#viewWillAppear-animated-Bool" class="headerlink" title="viewWillAppear(_ animated: Bool)"></a><code>viewWillAppear(_ animated: Bool)</code></h2><p>在content view将要被加载到View hierarchy中时调用<br>不显示在屏幕上的情况：</p>
+<ul>
+<li>当前view controller的view被另一个view controller的view覆盖</li>
+<li>当前view controller的view的IsHidden属性被设置为true</li>
+</ul>
+<h2 id="viewDidAppear-animated-Bool"><a href="#viewDidAppear-animated-Bool" class="headerlink" title="viewDidAppear(_ animated: Bool)"></a><code>viewDidAppear(_ animated: Bool)</code></h2><p>在content view已经被加载到View hierarchy中时调用<br>适合执行一些动画，以及通过API加载数据</p>
+<h2 id="viewWillDisappear-animated-Bool"><a href="#viewWillDisappear-animated-Bool" class="headerlink" title="viewWillDisappear(_ animated: Bool)"></a><code>viewWillDisappear(_ animated: Bool)</code></h2><p>在content view将要从View hierarchy中移除时调用</p>
+<h2 id="viewDidDisappear-animated-Bool"><a href="#viewDidDisappear-animated-Bool" class="headerlink" title="viewDidDisappear(_ animated: Bool)"></a><code>viewDidDisappear(_ animated: Bool)</code></h2><p>在content view已经从View hierarchy中移除时调用</p>
+<h2 id="viewWillLayoutSubviews"><a href="#viewWillLayoutSubviews" class="headerlink" title="viewWillLayoutSubviews()"></a><code>viewWillLayoutSubviews()</code></h2><p>在content view的bounds发生改变时，但lays out它的subviews之前调用<br>比如：当设备旋转时，会调用这个方法</p>
+<h2 id="viewDidLayoutSubviews"><a href="#viewDidLayoutSubviews" class="headerlink" title="viewDidLayoutSubviews()"></a><code>viewDidLayoutSubviews()</code></h2><p>在content view的bounds发生改变时，但lays out它的subviews之后调用</p>
+<img src="/2023/08/04/ui-vc-lifecycle/view-lifecycle.png" class="">
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cll0lbape000li9oscksj4h5u" data-title="UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ios-tips" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/08/03/ios-tips/" class="article-date">
+  <time class="dt-published" datetime="2023-08-03T17:15:03.000Z" itemprop="datePublished">2023-08-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/08/03/ios-tips/">ios-tips</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="translatesAutoresizingMaskIntoConstraints"><a href="#translatesAutoresizingMaskIntoConstraints" class="headerlink" title="translatesAutoresizingMaskIntoConstraints"></a><code>translatesAutoresizingMaskIntoConstraints</code></h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47800210/when-should-translatesautoresizingmaskintoconstraints-be-set-to-true">https://stackoverflow.com/questions/47800210/when-should-translatesautoresizingmaskintoconstraints-be-set-to-true</a></p>
+<ul>
+<li>代码创建View时，View的<code>translatesAutoresizingMaskIntoConstraints</code>属性默认为true</li>
+<li>Interface Builder创建View时，View的<code>translatesAutoresizingMaskIntoConstraints</code>属性默认为false</li>
+<li>代码创建的View，使用frame进行布局时，不能添加额外的约束，否则会导致约束冲突</li>
+<li>代码创建的View，使用Auto Layout进行布局时，必须将<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为false</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cll0lbaot0003i9osdfyvg07y" data-title="ios-tips" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ios-ui-stack-view" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/08/03/ios-ui-stack-view/" class="article-date">
+  <time class="dt-published" datetime="2023-08-03T16:30:17.000Z" itemprop="datePublished">2023-08-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/08/03/ios-ui-stack-view/">Stack View</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Stack View能够使用Auto Layout的能力，创建自适应设备方向、屏幕尺寸和内容变化的UI。</p>
+<p>通过<code>arrangedSubviews</code>属性管理所有View的布局</p>
+<p>这些View沿着Stack View的轴线排列，并且按照它们在<code>arrangedSubviews</code>数组里的顺序进行布局。</p>
+<p>具体的布局取决于：</p>
+<ul>
+<li>axis</li>
+<li>distribution</li>
+<li>alignment</li>
+<li>spacing</li>
+</ul>
+<p>以及其他属性</p>
+<img src="/2023/08/03/ios-ui-stack-view/ui-stack-view@2x.png" class="">
+
+<p>注意：你的职责是定义Stack View的position和size（可选的），然后Stack View会管理layout和内容的大小</p>
+<h2 id="Stack-View和自动布局（Auto-Layout）"><a href="#Stack-View和自动布局（Auto-Layout）" class="headerlink" title="Stack View和自动布局（Auto Layout）"></a>Stack View和自动布局（Auto Layout）</h2><p>Stack View把它第一个和最后一个View与Stack的轴的边界（edge）对齐</p>
+<p>如果设置了<code>isLayoutMarginsRelativeArrangement</code>属性为true，Stack View会包含margin的空间</p>
+<p>对于除了<code>UIStackView.Distribution.fillEqually</code>以外的distribution，Stack View会根据每个arranged view到<code>intrinsiceContentSize</code>的属性来计算它沿着Stack轴到大小</p>
+<p>而对于<code>UIStackView.Distribution.fillEqually</code>，则会resize所有的arranged view，使它们的大小相等</p>
+<p>Stack View会伸展所有的arranged views，来匹配沿着Stack轴的最长intrinsic size</p>
+<h2 id="常用的Stack-View布局定义"><a href="#常用的Stack-View布局定义" class="headerlink" title="常用的Stack View布局定义"></a>常用的Stack View布局定义</h2><h3 id="只定义position"><a href="#只定义position" class="headerlink" title="只定义position"></a>只定义position</h3><img src="/2023/08/03/ios-ui-stack-view/position-only.png" class="">
+<h3 id="定义沿着轴的size"><a href="#定义沿着轴的size" class="headerlink" title="定义沿着轴的size"></a>定义沿着轴的size</h3><img src="/2023/08/03/ios-ui-stack-view/size-along-axis.png" class="">
+<h3 id="定义垂直于轴的size"><a href="#定义垂直于轴的size" class="headerlink" title="定义垂直于轴的size"></a>定义垂直于轴的size</h3><img src="/2023/08/03/ios-ui-stack-view/size-perpendicular-axis.png" class="">
+<h3 id="定义size和position"><a href="#定义size和position" class="headerlink" title="定义size和position"></a>定义size和position</h3><img src="/2023/08/03/ios-ui-stack-view/size-position.png" class="">
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cll0lbaov0005i9ose2vp6kyl" data-title="Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -180,7 +352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/adj-te/" data-id="clkwmckie0000ifoz9cwi0ib7" data-title="形容词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/adj-te/" data-id="cll0lbaoj0000i9os59ozd712" data-title="形容词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -265,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/verb-te/" data-id="clkwmckiy000gifoz2lsj17zi" data-title="动词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/verb-te/" data-id="cll0lbapg000pi9oseoy17knp" data-title="动词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -422,15 +594,13 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainActor</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UICollectionView</span> : <span class="title class_">UIScrollView</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="UIStackView"><a href="#UIStackView" class="headerlink" title="UIStackView"></a>UIStackView</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/uistackview">Documentation</a></p>
-<img src="/2023/08/02/ios-ui-view/ui-stack-view@2x.png" class="">
-
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainActor</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UIStackView</span> : <span class="title class_">UIView</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="UIScrollView"><a href="#UIScrollView" class="headerlink" title="UIScrollView"></a>UIScrollView</h3><h2 id="Content-views"><a href="#Content-views" class="headerlink" title="Content views"></a>Content views</h2><h3 id="UIActivityIndicatorView"><a href="#UIActivityIndicatorView" class="headerlink" title="UIActivityIndicatorView"></a>UIActivityIndicatorView</h3><h3 id="UICalendarView"><a href="#UICalendarView" class="headerlink" title="UICalendarView"></a>UICalendarView</h3><h3 id="UIImageView"><a href="#UIImageView" class="headerlink" title="UIImageView"></a>UIImageView</h3><h3 id="UIPickerView"><a href="#UIPickerView" class="headerlink" title="UIPickerView"></a>UIPickerView</h3><h3 id="UIProgressView"><a href="#UIProgressView" class="headerlink" title="UIProgressView"></a>UIProgressView</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="clkwmckio0003ifoz11ktg9dn" data-title="View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cll0lbaox0006i9os88xi89nb" data-title="View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -561,7 +731,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="clkwmckiq0005ifoz33dibnt1" data-title="View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cll0lbaoz0009i9os8imz9awb" data-title="View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -743,7 +913,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/31/verb/" data-id="clkwmckjc0020ifoz6e3g7eev" data-title="动词" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/31/verb/" data-id="cll0lbapg000ri9osc3sc387f" data-title="动词" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -801,7 +971,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="clkwmckix000eifoza1b19d5l" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="cll0lbapd000ji9os1sojba2r" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -815,528 +985,12 @@
 
 
   
-    <article id="post-japanese-app" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/07/30/japanese-app/" class="article-date">
-  <time class="dt-published" datetime="2023-07-30T16:29:33.000Z" itemprop="datePublished">2023-07-30</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/30/japanese-app/">日语学习App</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>想做个日语背单词iOS App，给自己学日语用。<br>功能类似于扇贝单词，每天安排复习、打卡。<br>这篇文章会持续更新这个App的进度。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/30/japanese-app/" data-id="clkwmckir0006ifoz3usebjbb" data-title="日语学习App" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" rel="tag">个人项目</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-adj" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/07/30/adj/" class="article-date">
-  <time class="dt-published" datetime="2023-07-30T15:06:43.000Z" itemprop="datePublished">2023-07-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%97%A5%E8%AF%AD/">日语</a>►<a class="article-category-link" href="/categories/%E6%97%A5%E8%AF%AD/%E8%AF%AD%E6%B3%95/">语法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/30/adj/">形容词</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>日语形容词分两类。</p>
-<ul>
-<li>一类形容词：以“い”结尾的形容词。做谓语时要在后面加“です”。</li>
-<li>二类形容词：不以“い”结尾的形容词。做谓语时要在后面加“です”。</li>
-</ul>
-<h2 id="变形规则"><a href="#变形规则" class="headerlink" title="变形规则"></a>变形规则</h2><h3 id="一类形容词"><a href="#一类形容词" class="headerlink" title="一类形容词"></a>一类形容词</h3><h4 id="1-否定形式"><a href="#1-否定形式" class="headerlink" title="1. 否定形式"></a>1. 否定形式</h4><p>将词尾的“い”变成“く”再加上“ないです”或“ありません”</p>
-<h4 id="2-过去形式"><a href="#2-过去形式" class="headerlink" title="2. 过去形式"></a>2. 过去形式</h4><p>把词尾的“い”变成“かった”再加“です”</p>
-<h4 id="3-过去否定形式"><a href="#3-过去否定形式" class="headerlink" title="3. 过去否定形式"></a>3. 过去否定形式</h4><p>把词尾的“い”变成“くなかったです”或者“くありませんでした”</p>
-<h3 id="二类形容词"><a href="#二类形容词" class="headerlink" title="二类形容词"></a>二类形容词</h3><h4 id="1-否定形式-1"><a href="#1-否定形式-1" class="headerlink" title="1. 否定形式"></a>1. 否定形式</h4><p>二类形容词+ではありません</p>
-<h4 id="2-过去形式-1"><a href="#2-过去形式-1" class="headerlink" title="2. 过去形式"></a>2. 过去形式</h4><p>二类形容词+でした</p>
-<h4 id="3-过去否定形式-1"><a href="#3-过去否定形式-1" class="headerlink" title="3. 过去否定形式"></a>3. 过去否定形式</h4><p>二类形容词+ではありませんでした<br>口语中では一般说成じゃ</p>
-<h3 id="例子-一类形容词变形"><a href="#例子-一类形容词变形" class="headerlink" title="例子 - 一类形容词变形"></a>例子 - 一类形容词变形</h3><h4 id="辛い"><a href="#辛い" class="headerlink" title="辛い"></a>辛い</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>辛いです</td>
-<td>辛くないです</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>辛かったです</td>
-<td>辛くなかったです</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>四川料理は辛いです。</li>
-</ul>
-<h4 id="冷たい"><a href="#冷たい" class="headerlink" title="冷たい"></a>冷たい</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>冷たいです</td>
-<td>冷たくないです</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>冷たかったです</td>
-<td>冷たくなかったです</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>あのスープは冷たいです。</li>
-</ul>
-<h4 id="熱い"><a href="#熱い" class="headerlink" title="熱い"></a>熱い</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>熱いです</td>
-<td>熱くないです</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>熱かったです</td>
-<td>熱くなかったです</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>このお茶は熱いです。</li>
-<li>このスープは熱くないです。</li>
-</ul>
-<h4 id="寒い"><a href="#寒い" class="headerlink" title="寒い"></a>寒い</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>寒いです</td>
-<td>寒くないです</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>寒かったです</td>
-<td>寒くなかったです</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>今日は寒くないです。</li>
-<li>昨日は寒くなかったです。</li>
-<li>昨日は寒くありませんでした。</li>
-</ul>
-<h3 id="例子-二类形容词变形"><a href="#例子-二类形容词变形" class="headerlink" title="例子 - 二类形容词变形"></a>例子 - 二类形容词变形</h3><h4 id="有名"><a href="#有名" class="headerlink" title="有名"></a>有名</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>有名です</td>
-<td>有名ではありません</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>有名でした</td>
-<td>有名ではありませんでした</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>京都の紅葉は有名です。</li>
-</ul>
-<h4 id="静か"><a href="#静か" class="headerlink" title="静か"></a>静か</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>静かです</td>
-<td>静かではありません</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>静かでした</td>
-<td>静かではありませんでした</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>この通りは静かです。</li>
-</ul>
-<h4 id="にぎやか"><a href="#にぎやか" class="headerlink" title="にぎやか"></a>にぎやか</h4><table>
-<thead>
-<tr>
-<th></th>
-<th>肯定形式</th>
-<th>否定形式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>现在形式</td>
-<td>賑やかです</td>
-<td>賑やかではありません</td>
-</tr>
-<tr>
-<td>过去形式</td>
-<td>賑やかでした</td>
-<td>賑やかではありませんでした</td>
-</tr>
-</tbody></table>
-<p>例句：</p>
-<ul>
-<li>この町は賑やかでした。</li>
-<li>この通りは賑やかではありません。</li>
-</ul>
-<h2 id="修饰名词"><a href="#修饰名词" class="headerlink" title="修饰名词"></a>修饰名词</h2><h3 id="一类形容词-1"><a href="#一类形容词-1" class="headerlink" title="一类形容词"></a>一类形容词</h3><p>一类形容词可直接修饰名词<br>例句：</p>
-<ul>
-<li>広い国</li>
-<li>青い海</li>
-<li>おいしい料理</li>
-<li>白い紙</li>
-</ul>
-<h3 id="二类形容词-1"><a href="#二类形容词-1" class="headerlink" title="二类形容词"></a>二类形容词</h3><p>二类形容词修饰名词时，用“二类形容词+な+名词”的形式</p>
-<ul>
-<li>奈良は静かな町です。</li>
-<li>奈良は賑やかな町ではありません。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/30/adj/" data-id="clkwmckik0001ifozf54obfq8" data-title="形容词" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%A5%E8%AF%AD/" rel="tag">日语</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-pronounciation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/07/30/pronounciation/" class="article-date">
-  <time class="dt-published" datetime="2023-07-30T11:11:36.000Z" itemprop="datePublished">2023-07-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%97%A5%E8%AF%AD/">日语</a>►<a class="article-category-link" href="/categories/%E6%97%A5%E8%AF%AD/%E4%BA%94%E5%8D%81%E9%9F%B3%E5%9B%BE/">五十音图</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/30/pronounciation/">五十音图</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="平假名"><a href="#平假名" class="headerlink" title="平假名"></a>平假名</h2><table>
-<thead>
-<tr>
-<th></th>
-<th>あ段</th>
-<th>い段</th>
-<th>う段</th>
-<th>え段</th>
-<th>お段</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>あ行</td>
-<td>あ</td>
-<td>い</td>
-<td>う</td>
-<td>え</td>
-<td>お</td>
-</tr>
-<tr>
-<td>か行</td>
-<td>か</td>
-<td>き</td>
-<td>く</td>
-<td>け</td>
-<td>こ</td>
-</tr>
-<tr>
-<td>さ行</td>
-<td>さ</td>
-<td>し</td>
-<td>す</td>
-<td>せ</td>
-<td>そ</td>
-</tr>
-<tr>
-<td>た行</td>
-<td>た</td>
-<td>ち</td>
-<td>つ</td>
-<td>て</td>
-<td>と</td>
-</tr>
-<tr>
-<td>な行</td>
-<td>な</td>
-<td>に</td>
-<td>ぬ</td>
-<td>ね</td>
-<td>の</td>
-</tr>
-<tr>
-<td>は行</td>
-<td>は</td>
-<td>ひ</td>
-<td>ふ</td>
-<td>へ</td>
-<td>ほ</td>
-</tr>
-<tr>
-<td>ま行</td>
-<td>ま</td>
-<td>み</td>
-<td>む</td>
-<td>め</td>
-<td>も</td>
-</tr>
-<tr>
-<td>や行</td>
-<td>や</td>
-<td>(い)</td>
-<td>ゆ</td>
-<td>(え)</td>
-<td>よ</td>
-</tr>
-<tr>
-<td>ら行</td>
-<td>ら</td>
-<td>り</td>
-<td>る</td>
-<td>れ</td>
-<td>ろ</td>
-</tr>
-<tr>
-<td>わ行</td>
-<td>わ</td>
-<td>(い)</td>
-<td>(う)</td>
-<td>(え)</td>
-<td>を</td>
-</tr>
-<tr>
-<td></td>
-<td>ん</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="片假名"><a href="#片假名" class="headerlink" title="片假名"></a>片假名</h2><table>
-<thead>
-<tr>
-<th></th>
-<th>あ段</th>
-<th>い段</th>
-<th>う段</th>
-<th>え段</th>
-<th>お段</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>あ行</td>
-<td>ア</td>
-<td>イ</td>
-<td>ウ</td>
-<td>エ</td>
-<td>オ</td>
-</tr>
-<tr>
-<td>か行</td>
-<td>カ</td>
-<td>キ</td>
-<td>ク</td>
-<td>ケ</td>
-<td>コ</td>
-</tr>
-<tr>
-<td>さ行</td>
-<td>サ</td>
-<td>シ</td>
-<td>ス</td>
-<td>セ</td>
-<td>ソ</td>
-</tr>
-<tr>
-<td>た行</td>
-<td>タ</td>
-<td>チ</td>
-<td>ツ</td>
-<td>テ</td>
-<td>ト</td>
-</tr>
-<tr>
-<td>な行</td>
-<td>ナ</td>
-<td>ニ</td>
-<td>ヌ</td>
-<td>ネ</td>
-<td>ノ</td>
-</tr>
-<tr>
-<td>は行</td>
-<td>ハ</td>
-<td>ヒ</td>
-<td>フ</td>
-<td>ヘ</td>
-<td>ホ</td>
-</tr>
-<tr>
-<td>ま行</td>
-<td>マ</td>
-<td>ミ</td>
-<td>ム</td>
-<td>メ</td>
-<td>モ</td>
-</tr>
-<tr>
-<td>や行</td>
-<td>ヤ</td>
-<td>(イ)</td>
-<td>ユ</td>
-<td>(エ)</td>
-<td>ヨ</td>
-</tr>
-<tr>
-<td>ら行</td>
-<td>ラ</td>
-<td>リ</td>
-<td>ル</td>
-<td>レ</td>
-<td>ロ</td>
-</tr>
-<tr>
-<td>わ行</td>
-<td>ワ</td>
-<td>(イ)</td>
-<td>(ウ)</td>
-<td>(エ)</td>
-<td>ヲ</td>
-</tr>
-<tr>
-<td></td>
-<td>ン</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/30/pronounciation/" data-id="clkwmckiu0009ifoz56vz1u4j" data-title="五十音图" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%A5%E8%AF%AD/" rel="tag">日语</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -1366,7 +1020,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">个人项目</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/tags/%E6%97%A5%E8%AF%AD/" style="font-size: 15px;">日语</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 15px;">计算机</a>
+      <a href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" style="font-size: 10px;">个人项目</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/tags/%E6%97%A5%E8%AF%AD/" style="font-size: 13.33px;">日语</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 16.67px;">计算机</a>
     </div>
   </div>
 
@@ -1392,19 +1046,19 @@
           </li>
         
           <li>
+            <a href="/2023/08/04/ui-vc-lifecycle/">UIViewController生命周期</a>
+          </li>
+        
+          <li>
+            <a href="/2023/08/03/ios-tips/">ios-tips</a>
+          </li>
+        
+          <li>
+            <a href="/2023/08/03/ios-ui-stack-view/">Stack View</a>
+          </li>
+        
+          <li>
             <a href="/2023/08/02/adj-te/">形容词て形</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/02/verb-te/">动词て形</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/02/ios-ui-view/">View</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/01/ios-view-controllers/">View Controller</a>
           </li>
         
       </ul>
