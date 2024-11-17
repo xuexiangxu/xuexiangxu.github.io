@@ -1,11 +1,10 @@
 ---
-title: android-appcrash-nullexception
+title: java.lang.NullableException导致的app crash
 date: 2024-11-17 22:10:35
-tags: [计算机, 学习]
+tags: [Android, Bug]
 categories:
 - [计算机, Android]
 ---
-# NullableException导致的app crash
 记录遇到的一个Bug:
 
 在写Android App时出现了一个app crash，
