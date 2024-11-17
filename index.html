@@ -73,6 +73,65 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-appcrash-nullexception" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/17/android-appcrash-nullexception/" class="article-date">
+  <time class="dt-published" datetime="2024-11-17T22:10:35.000Z" itemprop="datePublished">2024-11-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/17/android-appcrash-nullexception/">android-appcrash-nullexception</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="NullableException导致的app-crash"><a href="#NullableException导致的app-crash" class="headerlink" title="NullableException导致的app crash"></a>NullableException导致的app crash</h1><p>记录遇到的一个Bug:</p>
+<p>在写Android App时出现了一个app crash，<br>异常信息是<code>java.lang.NullPointerException</code></p>
+<p>因为新项目用的Kotlin，而同时需要用到老的Java代码</p>
+<p>原本Java代码有一个Interface：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MetaDataRefreshCallback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Exception error)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在新的Kotlin代码里实现了这个接口：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> callback = <span class="keyword">object</span> : MetadataRefreshCallback &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onComplete</span><span class="params">()</span></span> &#123;</span><br><span class="line">        continuation.resume(<span class="built_in">Unit</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onError</span><span class="params">(error: <span class="type">Exception</span>)</span></span> &#123;</span><br><span class="line">        continuation.resumeWithException(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题就出在Java的Exception类型可能是null，而Kotlin如果没有声明类型为Nullable，默认不会是null的。如果传了null进去，就会抛异常</p>
+<p>而这里的异常不会被外层的<code>try-catch</code>捕获，从而导致app crash</p>
+<p>Fix的代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> callback = <span class="keyword">object</span> : MetadataRefreshCallback &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onComplete</span><span class="params">()</span></span> &#123;</span><br><span class="line">        continuation.resume(<span class="built_in">Unit</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onError</span><span class="params">(error: <span class="type">Exception</span>?)</span></span> &#123;</span><br><span class="line">        continuation.resumeWithException(error ?: Exception(<span class="string">&quot;Error in refreshing items&quot;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在把Java代码转化成Kotlin时，要注意对象的null值，Java里没有Nullable类型，如果Kotlin不设置成Nullable，会认为该对象不可能为null，如果运行时出现了null，则会抛<code>java.lang.NullableException</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm3lp2kt50006itpz7hp10z5r" data-title="android-appcrash-nullexception" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-algo-remove-element" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/08/09/algo-remove-element/" class="article-date">
@@ -111,7 +170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/09/algo-remove-element/" data-id="cm3kuriaa0005jdp70grc3oq7" data-title="移除元素" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/09/algo-remove-element/" data-id="cm3lp2kt40005itpz18k2fzg4" data-title="移除元素" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -162,7 +221,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/09/algo-binary-search/" data-id="cm3kuria80003jdp7dqj93879" data-title="二分法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/09/algo-binary-search/" data-id="cm3lp2kt20003itpzgvt6an93" data-title="二分法" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -254,7 +313,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm3kuriac0009jdp7dbh9ex4y" data-title="iOS的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm3lp2kt70009itpz8ou0dmto" data-title="iOS的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -316,7 +375,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm3kuriak000njdp73jhydj4r" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm3lp2ktf000pitpz61y77il2" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -371,7 +430,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm3kuriaz002tjdp7h7jn8wuu" data-title="UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm3lp2ktu0030itpz5nuaag2h" data-title="UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -422,7 +481,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm3kuriab0006jdp70lrh47jz" data-title="ios-tips" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm3lp2kt7000aitpzcxhpcl7w" data-title="ios-tips" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -488,7 +547,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm3kuriad000ajdp77qtkdlqu" data-title="Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm3lp2kt9000ditpzh6rb9cxt" data-title="Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -547,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/adj-te/" data-id="cm3kuri9z0000jdp73rpwcgcz" data-title="形容词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/adj-te/" data-id="cm3lp2kst0000itpz56gcc16v" data-title="形容词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -632,174 +691,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/verb-te/" data-id="cm3kuriaz002ujdp7cyyk6sax" data-title="动词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/verb-te/" data-id="cm3lp2ktu0031itpzgahffy53" data-title="动词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%A5%E8%AF%AD/" rel="tag">日语</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ios-ui-view" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/08/02/ios-ui-view/" class="article-date">
-  <time class="dt-published" datetime="2023-08-02T11:48:26.000Z" itemprop="datePublished">2023-08-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/08/02/ios-ui-view/">View</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>View和Control是app的UI的基本元素。</p>
-<p>View里面可以包含其他的View （Superview，Subview）</p>
-<ul>
-<li>UIView：所有View的基类</li>
-<li>UIControl：control的基类，包含button、switch、slider等</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainActor</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UIView</span>: <span class="title class_">UIResponder</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainActor</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UIControl</span>: <span class="title class_">UIView</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="View对象的职责："><a href="#View对象的职责：" class="headerlink" title="View对象的职责："></a>View对象的职责：</h2><ul>
-<li>绘制和动画<ul>
-<li>View使用UIKit或者Core Graphics在自己的矩形中绘制内容</li>
-<li>可以改变属性来控制动画</li>
-</ul>
-</li>
-<li>布局和子视图管理<ul>
-<li>View可以包含其他的View</li>
-<li>View可以管理子视图的位置和大小</li>
-<li>使用Auto Layout来定义View的resizing和reposioning规则来响应view hierarchy的变化</li>
-</ul>
-</li>
-<li>事件处理<ul>
-<li>View是UIResponder的子类，可以处理触摸事件和其他类型的事件</li>
-<li>View可以安装手势识别器来处理手势</li>
-</ul>
-</li>
-</ul>
-<p>默认情况下，subview的可见区域超出superview的边界时，超出部分不会被裁剪，可以通过设置clipsToBounds属性来改变这种行为。</p>
-<ul>
-<li>frame：在superview的坐标系中定义了View的原点和尺寸</li>
-<li>bounds：定义了View自己看到的内部尺寸，几乎专门用于自定义绘制代码</li>
-<li>center：提供了一种方便的重新定位View的方法，无需直接更改frame或bounds属性</li>
-</ul>
-<h2 id="创建View"><a href="#创建View" class="headerlink" title="创建View"></a>创建View</h2><ul>
-<li>通过Storyboard创建</li>
-<li>通过代码创建</li>
-</ul>
-<p>例如，以下代码把View放置在superview坐标系统的左上角(10, 10)的坐标上：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> rect <span class="operator">=</span> <span class="type">CGRect</span>(x: <span class="number">10</span>, y: <span class="number">10</span>, width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line"><span class="keyword">let</span> myView <span class="operator">=</span> <span class="type">UIView</span>(frame: rect)</span><br></pre></td></tr></table></figure>
-<p>通过调用<code>addSubview(_:)</code>方法，可以把View添加到superview中，每次调用该方法时，会把新的View放置在所有siblings的最上面。</p>
-<p>可以通过调用<code>insertSubview(_:aboveSUbview:)</code>或者<code>insertSubview(_:belowSubview:)</code>方法来改变z轴顺序。</p>
-<h2 id="绘制View"><a href="#绘制View" class="headerlink" title="绘制View"></a>绘制View</h2><p>View的绘制是在需要时进行的。当一个<code>View</code>首次显示出来，或者由于布局变化而使其全部或部分变得可见时，系统会要求<code>View</code>绘制其内容。对于包含使用UIKit或Core Graphics进行自定义内容的<code>View</code>，系统会调用<code>View</code>的<code>draw(_:)</code>方法。你实现这个方法负责将<code>View</code>的内容绘制到当前的图形上下文中，该图形上下文由系统在调用此方法之前自动设置。这将创建一个<code>View</code>内容的static representation，并可以在屏幕上显示。</p>
-<p>当View的实际内容发生变化时，你需要负责通知系统重新绘制View。你可以通过调用View的<code>setNeedsDisplay()</code>或<code>setNeedsDisplay(_:)</code>方法来实现。这些方法告诉系统在下一个绘制周期中更新<code>View</code>。由于它等待到下一个绘制周期才更新<code>View</code>，你可以在多个<code>View</code>上调用这些方法，同时更新它们。</p>
-<h2 id="动画View"><a href="#动画View" class="headerlink" title="动画View"></a>动画View</h2><p>可动画的属性：</p>
-<ul>
-<li>frame</li>
-<li>bounds</li>
-<li>center</li>
-<li>transform</li>
-<li>alpha</li>
-<li>backgroundColor</li>
-</ul>
-<p>创建一个<code>UIViewPropertyAnimator</code>对象，用它的handler block来改变View的属性</p>
-<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>必须在主线程</p>
-<h2 id="Override的方法"><a href="#Override的方法" class="headerlink" title="Override的方法"></a>Override的方法</h2><ul>
-<li>Initialization<ul>
-<li>init(frame:) - 推荐使用</li>
-<li>init(coder:) - 从storyboard或者nib文件中加载时使用</li>
-<li>layerClass - 只在想要使用不同的Core Animation layer时才需要使用</li>
-</ul>
-</li>
-<li>Drawing and painting<ul>
-<li>draw(_:) - 如果View需要自定义内容，需要实现这个方法。如果View不进行任何自定义绘制，不要实现这个方法</li>
-<li>draw(_:for:) - 仅在你想在打印时以不同方式绘制View内容时才实现这个方法</li>
-</ul>
-</li>
-<li>Layout and Constraints<ul>
-<li>requiresConstraintBasedLayout - 如果需要constraints</li>
-<li>updateConstraints - 如果view和subviews之间需要自定义constraints</li>
-<li>alignmentRect(forFrame:), frame(forAlignmentRect:) - view和其他view对齐时使用</li>
-<li>didAddSubview(<em>:), willRemoveSubview(</em>:) - 用来track subview的添加和删除</li>
-<li>willMove(toSuperview:), didMoveToSuperview() - 用来track你的view在view hierarchy之间的变化</li>
-</ul>
-</li>
-<li>Event Handling<ul>
-<li>gestureRecognizerShouldBegin(_:) - 如果你的视图直接处理触摸事件，并且可能希望阻止附加的手势识别器触发其他操作，请实现这个方法</li>
-<li>touchesBegan(<em>:with:), touchesMoved(</em>:with:), touchesEnded(<em>:with:), touchesCancelled(</em>:with:) - 如果想用来直接处理触摸事件 （对于手势基本输入，使用gesture recognizers）</li>
-</ul>
-</li>
-</ul>
-<h2 id="Subclassing的替代方案"><a href="#Subclassing的替代方案" class="headerlink" title="Subclassing的替代方案"></a>Subclassing的替代方案</h2><ul>
-<li>addConstraints(_:)</li>
-<li>autoresizingMask</li>
-<li>contentMode</li>
-<li>isHidden或alpha</li>
-<li>backgroundColor</li>
-<li>Subviews</li>
-<li>Gesture recognizers</li>
-<li>Animations</li>
-<li>Image-based backgrounds</li>
-</ul>
-<h1 id="常用的View"><a href="#常用的View" class="headerlink" title="常用的View"></a>常用的View</h1><h2 id="Container-views"><a href="#Container-views" class="headerlink" title="Container views"></a>Container views</h2><h3 id="Collection-views"><a href="#Collection-views" class="headerlink" title="Collection views"></a>Collection views</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/views_and_controls/collection_views">Documentation</a></p>
-<ul>
-<li>Cells</li>
-<li>Layouts</li>
-<li>Data source object</li>
-<li>Delegate object</li>
-<li>Collection view controller</li>
-</ul>
-<img src="/2023/08/02/ios-ui-view/collection-views@2x.png" class="">
-
-<h3 id="Table-views"><a href="#Table-views" class="headerlink" title="Table views"></a>Table views</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/views_and_controls/table_views">Documentation</a></p>
-<ul>
-<li>Cells</li>
-<li>Table view controller</li>
-<li>Data source object</li>
-<li>Delegate object</li>
-</ul>
-<img src="/2023/08/02/ios-ui-view/table-views@2x.png" class="">
-
-<h3 id="UICollectionView"><a href="#UICollectionView" class="headerlink" title="UICollectionView"></a>UICollectionView</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/uicollectionview">Documentation</a></p>
-<img src="/2023/08/02/ios-ui-view/ui-collection-view@2x.png" class="">
-
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainActor</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UICollectionView</span> : <span class="title class_">UIScrollView</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="UIStackView"><a href="#UIStackView" class="headerlink" title="UIStackView"></a>UIStackView</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/uistackview">Documentation</a></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainActor</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UIStackView</span> : <span class="title class_">UIView</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="UIScrollView"><a href="#UIScrollView" class="headerlink" title="UIScrollView"></a>UIScrollView</h3><h2 id="Content-views"><a href="#Content-views" class="headerlink" title="Content views"></a>Content views</h2><h3 id="UIActivityIndicatorView"><a href="#UIActivityIndicatorView" class="headerlink" title="UIActivityIndicatorView"></a>UIActivityIndicatorView</h3><h3 id="UICalendarView"><a href="#UICalendarView" class="headerlink" title="UICalendarView"></a>UICalendarView</h3><h3 id="UIImageView"><a href="#UIImageView" class="headerlink" title="UIImageView"></a>UIImageView</h3><h3 id="UIPickerView"><a href="#UIPickerView" class="headerlink" title="UIPickerView"></a>UIPickerView</h3><h3 id="UIProgressView"><a href="#UIProgressView" class="headerlink" title="UIProgressView"></a>UIProgressView</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm3kuriaf000djdp78fzw4ftn" data-title="View" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
 
     </footer>
   </div>
@@ -824,7 +720,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/">日语</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/%E4%BA%94%E5%8D%81%E9%9F%B3%E5%9B%BE/">五十音图</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/%E8%AF%AD%E6%B3%95/">语法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/">日语</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/%E4%BA%94%E5%8D%81%E9%9F%B3%E5%9B%BE/">五十音图</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E8%AF%AD/%E8%AF%AD%E6%B3%95/">语法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/iOS/">iOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -853,7 +749,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li></ul>
     </div>
   </div>
 
@@ -864,6 +760,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/11/17/android-appcrash-nullexception/">android-appcrash-nullexception</a>
+          </li>
         
           <li>
             <a href="/2023/08/09/algo-remove-element/">移除元素</a>
@@ -879,10 +779,6 @@
         
           <li>
             <a href="/2023/08/04/react-children-re-render/">React Component - 子组件什么时候会re-render</a>
-          </li>
-        
-          <li>
-            <a href="/2023/08/04/ui-vc-lifecycle/">UIViewController生命周期</a>
           </li>
         
       </ul>
