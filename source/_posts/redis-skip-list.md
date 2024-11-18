@@ -1,16 +1,16 @@
 ---
-title: Redis中的跳跃表(Skip list)
+title: Redis中的跳跃表(skiplist)
 date: 2024-11-18 20:58:57
 tags: [Redis]
 ---
-Skip list时一种有序数据结构，支持平均O(log(N))，最坏O(N)复杂度的节点查找
+跳跃表(skiplist)是一种有序数据结构，支持平均O(log(N))，最坏O(N)复杂度的节点查找
 
 查找：平均O(log(N))
 插入：平均O(log(N))
 
 Redis使用跳跃表作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量比较多，或者成员是比较长的字符串时，Redis就会使用跳跃表来作为有序集合键的底层实现
 
-1.创建跳跃表
+# 创建跳跃表
 
 一开始有N个元素，按照从小到大排列：
 
@@ -20,27 +20,22 @@ Redis使用跳跃表作为有序集合键的底层实现之一，如果一个有
 
 现在在链表的基础上改进，首先在开头加一个节点Sentinel
 
-L0: Sentinel -> 2 -> 8 -> 10 -> 11 -> 13 -> 19 -> 20 -> 22 -> 26 -> 30
+{% asset_img skiplist-l0.png %}
 
 L0层的指针一个接一个，没有跳跃
 从L1层开始有跳跃，现在开始添加L1层的指针
 
-跳跃表随机决定节点高度是否增长
+跳跃表随机决定节点高度是否增长，进过一轮循环，得到L1层：
 
-graph TD
-    level1[3] --> level2[6] --> level3[7] --> level4[9] --> level5[12] --> level6[17] --> level7[19] --> level8[21] --> level9[27] --> level10[31]
+{% asset_img skiplist-l1.png %}
 
-    subgraph level0
-        direction LR
-        3[3] --> 6[6] --> 7[7] --> 9[9] --> 12[12] --> 17[17] --> 19[19] --> 21[21] --> 27[27] --> 31[31]
-    end
+再经过一轮循环，得到L2层：
 
-    subgraph level1
-        direction LR
-        3[3] --> 7[7] --> 17[17] --> 31[31]
-    end
+{% asset_img skiplist-l2.png %}
 
-    subgraph level2
-        direction LR
-        3[3] --> 9[9] --> 31[31]
-    end
+再经过一轮循环，得到L3层：
+
+{% asset_img skiplist-l3.png %}
+
+跳跃列表的层数由用户自己决定
+最好用log(N)层，可以保证查找和插入复杂度都是log(N)
