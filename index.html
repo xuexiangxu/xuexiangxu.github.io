@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(Skip list)</a>
+      <a class="p-name article-title" href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(skiplist)</a>
     </h1>
   
 
@@ -99,38 +99,31 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>Skip list时一种有序数据结构，支持平均O(log(N))，最坏O(N)复杂度的节点查找</p>
+        <p>跳跃表(skiplist)是一种有序数据结构，支持平均O(log(N))，最坏O(N)复杂度的节点查找</p>
 <p>查找：平均O(log(N))<br>插入：平均O(log(N))</p>
 <p>Redis使用跳跃表作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量比较多，或者成员是比较长的字符串时，Redis就会使用跳跃表来作为有序集合键的底层实现</p>
-<p>1.创建跳跃表</p>
-<p>一开始有N个元素，按照从小到大排列：</p>
+<h1 id="创建跳跃表"><a href="#创建跳跃表" class="headerlink" title="创建跳跃表"></a>创建跳跃表</h1><p>一开始有N个元素，按照从小到大排列：</p>
 <p>2 -&gt; 8 -&gt; 10 -&gt; 11 -&gt; 13 -&gt; 19 -&gt; 20 -&gt; 22 -&gt; 26 -&gt; 30</p>
 <p>可以用单向列表来存储，链表的缺点在于无法随机访问，查找很慢</p>
 <p>现在在链表的基础上改进，首先在开头加一个节点Sentinel</p>
-<p>L0: Sentinel -&gt; 2 -&gt; 8 -&gt; 10 -&gt; 11 -&gt; 13 -&gt; 19 -&gt; 20 -&gt; 22 -&gt; 26 -&gt; 30</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l0.png" class="">
+
 <p>L0层的指针一个接一个，没有跳跃<br>从L1层开始有跳跃，现在开始添加L1层的指针</p>
-<p>跳跃表随机决定节点高度是否增长</p>
-<p>graph TD<br>    level1[3] –&gt; level2[6] –&gt; level3[7] –&gt; level4[9] –&gt; level5[12] –&gt; level6[17] –&gt; level7[19] –&gt; level8[21] –&gt; level9[27] –&gt; level10[31]</p>
-<pre><code>subgraph level0
-    direction LR
-    3[3] --&gt; 6[6] --&gt; 7[7] --&gt; 9[9] --&gt; 12[12] --&gt; 17[17] --&gt; 19[19] --&gt; 21[21] --&gt; 27[27] --&gt; 31[31]
-end
+<p>跳跃表随机决定节点高度是否增长，进过一轮循环，得到L1层：</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l1.png" class="">
 
-subgraph level1
-    direction LR
-    3[3] --&gt; 7[7] --&gt; 17[17] --&gt; 31[31]
-end
+<p>再经过一轮循环，得到L2层：</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l2.png" class="">
 
-subgraph level2
-    direction LR
-    3[3] --&gt; 9[9] --&gt; 31[31]
-end
-</code></pre>
+<p>再经过一轮循环，得到L3层：</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l3.png" class="">
+
+<p>跳跃列表的层数由用户自己决定<br>最好用log(N)层，可以保证查找和插入复杂度都是log(N)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm3n2b12w000tijovckppeetl" data-title="Redis中的跳跃表(Skip list)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm3n369px000thiq982444wii" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -189,7 +182,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm3n2b12k0006ijov4mhqcjlk" data-title="java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm3n369pm0006hiq934klcrgi" data-title="java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -241,7 +234,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/09/algo-remove-element/" data-id="cm3n2b12j0005ijov767r25t0" data-title="移除元素" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/09/algo-remove-element/" data-id="cm3n369pl0005hiq922mhgnm3" data-title="移除元素" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -292,7 +285,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/09/algo-binary-search/" data-id="cm3n2b12i0003ijov188655le" data-title="二分法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/09/algo-binary-search/" data-id="cm3n369pk0003hiq9cry49p7u" data-title="二分法" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -384,7 +377,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm3n2b12m0009ijov86wvahie" data-title="iOS的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm3n369pp0009hiq919x72gtm" data-title="iOS的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -446,7 +439,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm3n2b12v000pijovh2wo3mi4" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm3n369pw000phiq9ef8f60m7" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -501,7 +494,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm3n2b13a0033ijov021v8elx" data-title="UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm3n369qb0032hiq9gnoz8mt2" data-title="UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -552,7 +545,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm3n2b12n000aijovddoj2msu" data-title="ios-tips" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm3n369pq000ahiq92ym5c077" data-title="ios-tips" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -618,7 +611,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm3n2b12o000dijov5hkd0qlf" data-title="Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm3n369pr000dhiq9bg573dxb" data-title="Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -677,7 +670,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/adj-te/" data-id="cm3n2b1270000ijov71zu8qm0" data-title="形容词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/adj-te/" data-id="cm3n369pc0000hiq9fbve7t65" data-title="形容词て形" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -748,7 +741,7 @@ end
       <ul>
         
           <li>
-            <a href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(Skip list)</a>
+            <a href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(skiplist)</a>
           </li>
         
           <li>
