@@ -1,9 +1,9 @@
 ---
 title: Encode和Decode
 date: 2023-07-31 14:44:27
-tags: [计算机, 学习]
+tags: [iOS, Swift]
 categories:
-- [计算机, Swift]
+- [Swift]
 ---
 ## 概述
 许多编程任务需要用到数据的编码（encode）和解码（decode），把数据转变为一种中间格式，例如通过网络传输数据、把数据存进磁盘、把数据提交给API和服务等。

@@ -1,9 +1,9 @@
 ---
 title: React Component - 子组件什么时候会re-render
 date: 2023-08-04 21:10:09
-tags: [计算机, 学习]
+tags: [React]
 categories:
-- [计算机, React]
+- [React]
 ---
 https://whereisthemouse.com/react-components-when-do-children-re-render
 

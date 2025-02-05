@@ -2,6 +2,8 @@
 title: Redis中的跳跃表(skiplist)
 date: 2024-11-18 20:58:57
 tags: [Redis]
+categories:
+- [Redis]
 ---
 跳跃表(skiplist)是一种有序数据结构，支持平均O(log(N))，最坏O(N)复杂度的节点查找
 

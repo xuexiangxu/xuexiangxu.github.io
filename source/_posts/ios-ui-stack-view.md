@@ -1,9 +1,9 @@
 ---
-title: Stack View
+title: iOS中的Stack View
 date: 2023-08-03 16:30:17
-tags: [计算机, 学习]
+tags: [iOS]
 categories:
-- [计算机, iOS]
+- [iOS]
 ---
 Stack View能够使用Auto Layout的能力，创建自适应设备方向、屏幕尺寸和内容变化的UI。
 

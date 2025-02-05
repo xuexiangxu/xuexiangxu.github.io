@@ -1,9 +1,9 @@
 ---
-title: View Controller
+title: iOS中的View Controller
 date: 2023-08-01 10:49:57
-tags: [计算机, 学习]
+tags: [iOS]
 categories:
-- [计算机, iOS]
+- [iOS]
 ---
 `View controller`用来管理`UIKit` app的界面。每个`View Controller`管理一个root view，这个root view可以包含一些subviews。
 

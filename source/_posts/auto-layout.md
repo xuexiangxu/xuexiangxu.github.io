@@ -1,9 +1,9 @@
 ---
-title: iOS的Auto Layout
+title: iOS中的Auto Layout
 date: 2023-08-07 16:16:38
-tags: [计算机, 学习]
+tags: [iOS]
 categories:
-- [计算机, iOS]
+- [iOS]
 ---
 我们来动手实现一个Auto layout
 ## 1. 初始化一个iOS App

@@ -1,9 +1,9 @@
 ---
-title: JavaScript 中 LHS 和 RHS 的区别
+title: JavaScript中LHS和RHS的区别
 date: 2025-02-05 17:29:07
 tags: [JavaScript]
 categories:
-- [计算机, JavaScript]
+- [JavaScript]
 ---
 
 在 JavaScript 中，**LHS（Left-Hand Side）** 和 **RHS（Right-Hand Side）** 主要用于描述变量查询的类型，通常出现在 **作用域解析（Scope Resolution）** 过程中。它们的概念来自于 JavaScript 引擎在执行代码时查找变量的方式。

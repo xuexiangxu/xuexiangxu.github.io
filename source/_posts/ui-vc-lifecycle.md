@@ -1,9 +1,9 @@
 ---
-title: UIViewController生命周期
+title: iOS中的UIViewController生命周期
 date: 2023-08-04 13:33:28
-tags: [计算机, 学习]
+tags: [iOS]
 categories:
-- [计算机, iOS]
+- [iOS]
 ---
 ## `viewDidLoad()`
 

@@ -1,9 +1,9 @@
 ---
-title: ios-tips
+title: iOS中的translatesAutoresizingMaskIntoConstraints的使用
 date: 2023-08-03 17:15:03
-tags: [计算机, 学习]
+tags: [iOS]
 categories:
-- [计算机, iOS]
+- [iOS]
 ---
 
 ## `translatesAutoresizingMaskIntoConstraints`
