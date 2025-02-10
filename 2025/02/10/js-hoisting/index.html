@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JavaScript 提升（Hoisting） | Xuexiang&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 什么是提升？提升（Hoisting） 是指 JavaScript 在执行代码之前，会将变量和函数的声明提升到当前作用域的最顶端。但变量的赋值不会被提升，这可能会导致一些意想不到的行为。  2. JavaScript 代码执行过程JavaScript 代码执行分为两个阶段：  编译阶段（Parsing &amp; Compilation）  变量和函数声明被存入内存。 var 声明的变量会被默">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 提升（Hoisting）">
+<meta property="og:url" content="http://example.com/2025/02/10/js-hoisting/index.html">
+<meta property="og:site_name" content="Xuexiang&#39;s Blog">
+<meta property="og:description" content="1. 什么是提升？提升（Hoisting） 是指 JavaScript 在执行代码之前，会将变量和函数的声明提升到当前作用域的最顶端。但变量的赋值不会被提升，这可能会导致一些意想不到的行为。  2. JavaScript 代码执行过程JavaScript 代码执行分为两个阶段：  编译阶段（Parsing &amp; Compilation）  变量和函数声明被存入内存。 var 声明的变量会被默">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-10T13:56:02.000Z">
+<meta property="article:modified_time" content="2025-02-10T06:24:11.162Z">
+<meta property="article:author" content="xuexiangxu">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Xuexiang's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<!-- hexo injector head_end start --><script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.esm.min.mjs">
+    mermaid.initialize(
+      startOnLoad: true,
+    );
+    </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Xuexiang&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-js-hoisting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/10/js-hoisting/" class="article-date">
+  <time class="dt-published" datetime="2025-02-10T13:56:02.000Z" itemprop="datePublished">2025-02-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JavaScript 提升（Hoisting）
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-什么是提升？"><a href="#1-什么是提升？" class="headerlink" title="1. 什么是提升？"></a>1. 什么是提升？</h2><p><strong>提升（Hoisting）</strong> 是指 JavaScript 在执行代码之前，会<strong>将变量和函数的声明提升到当前作用域的最顶端</strong>。但变量的<strong>赋值不会被提升</strong>，这可能会导致一些意想不到的行为。</p>
+<hr>
+<h2 id="2-JavaScript-代码执行过程"><a href="#2-JavaScript-代码执行过程" class="headerlink" title="2. JavaScript 代码执行过程"></a>2. JavaScript 代码执行过程</h2><p>JavaScript 代码执行分为两个阶段：</p>
+<ol>
+<li><p><strong>编译阶段（Parsing &amp; Compilation）</strong></p>
+<ul>
+<li>变量和函数声明被存入内存。</li>
+<li><code>var</code> 声明的变量会被默认初始化为 <code>undefined</code>。</li>
+<li>函数声明会完整提升，允许在定义前调用。</li>
+</ul>
+</li>
+<li><p><strong>执行阶段（Execution）</strong></p>
+<ul>
+<li>代码按照书写顺序执行。</li>
+<li>变量赋值发生在此阶段。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-变量提升"><a href="#3-变量提升" class="headerlink" title="3. 变量提升"></a>3. 变量提升</h2><h3 id="3-1-var-变量的提升"><a href="#3-1-var-变量的提升" class="headerlink" title="3.1 var 变量的提升"></a>3.1 <code>var</code> 变量的提升</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// undefined（变量提升，但未赋值）</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-1-编译器如何处理"><a href="#3-1-1-编译器如何处理" class="headerlink" title="3.1.1 编译器如何处理"></a>3.1.1 编译器如何处理</h4><ul>
+<li><strong>编译阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// JavaScript 解释器看到 `var a = 10;`，会将 `var a;` 提升到顶部：</span></span><br><span class="line"><span class="keyword">var</span> a;  <span class="comment">// 变量声明被提升，但不会赋值</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>执行阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// undefined（变量已经存在，但未赋值）</span></span><br><span class="line">a = <span class="number">10</span>;         <span class="comment">// 赋值</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-结论"><a href="#3-1-2-结论" class="headerlink" title="3.1.2 结论"></a>3.1.2 结论</h4><ul>
+<li><code>var</code>声明的变量会被<strong>提升</strong>，但不会提升赋值部分，所以会得到<code>undefined</code></li>
+</ul>
+<h3 id="3-2-let-和-const-的提升"><a href="#3-2-let-和-const-的提升" class="headerlink" title="3.2 let 和 const 的提升"></a>3.2 <code>let</code> 和 <code>const</code> 的提升</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b); <span class="comment">// ❌ ReferenceError: Cannot access &#x27;b&#x27; before initialization</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b); <span class="comment">// 20</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-1-编译器如何处理"><a href="#3-2-1-编译器如何处理" class="headerlink" title="3.2.1 编译器如何处理"></a>3.2.1 编译器如何处理</h4><ul>
+<li><strong>编译阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> b;  <span class="comment">// 变量 b 被存储，但不会初始化</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>执行阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b); <span class="comment">// ❌ 访问 b 时会报错（进入 &quot;暂时性死区&quot;）</span></span><br><span class="line">b = <span class="number">20</span>; <span class="comment">// 赋值</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b); <span class="comment">// 20</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-2-结论"><a href="#3-2-2-结论" class="headerlink" title="3.2.2 结论"></a>3.2.2 结论</h4><ul>
+<li><code>let</code> 和 <code>const</code> 也会被提升，但不会初始化。</li>
+<li>在变量声明之前访问 <code>let</code> 或 <code>const</code> 变量会触发 **”暂时性死区（Temporal Dead Zone, TDZ）”**，导致 <code>ReferenceError</code>。</li>
+</ul>
+<hr>
+<h2 id="4-函数提升"><a href="#4-函数提升" class="headerlink" title="4. 函数提升"></a>4. 函数提升</h2><h3 id="4-1-函数声明（Function-Declaration）"><a href="#4-1-函数声明（Function-Declaration）" class="headerlink" title="4.1 函数声明（Function Declaration）"></a><strong>4.1 函数声明（Function Declaration）</strong></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">foo</span>(); <span class="comment">// ✅ 输出 &quot;Hello&quot;</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-1-1-编译器如何处理"><a href="#4-1-1-编译器如何处理" class="headerlink" title="4.1.1 编译器如何处理"></a>4.1.1 编译器如何处理</h4><ul>
+<li><strong>编译阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">&#125; <span class="comment">// 函数整个被提升</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>执行阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">foo</span>(); <span class="comment">// &quot;Hello&quot; ✅ 可以在定义前调用</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-1-2-结论"><a href="#4-1-2-结论" class="headerlink" title="4.1.2 结论"></a>4.1.2 结论</h4><ul>
+<li>函数声明会被<strong>完整提升</strong>，包括函数体，因此可以在<strong>定义前调用</strong>。</li>
+</ul>
+<h3 id="4-2-函数表达式（Function-Expression）"><a href="#4-2-函数表达式（Function-Expression）" class="headerlink" title="4.2 函数表达式（Function Expression）"></a><strong>4.2 函数表达式（Function Expression）</strong></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">bar</span>(); <span class="comment">// ❌ TypeError: bar is not a function</span></span><br><span class="line"><span class="keyword">var</span> bar = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-1-编译器如何处理"><a href="#4-2-1-编译器如何处理" class="headerlink" title="4.2.1 编译器如何处理"></a><strong>4.2.1 编译器如何处理</strong></h4><ul>
+<li><strong>编译阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bar; <span class="comment">// 变量 bar 被提升，但未赋值</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>执行阶段</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">bar</span>(); <span class="comment">// ❌ 这里 bar 还是 undefined，所以会报错</span></span><br><span class="line">bar = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-2-结论"><a href="#4-2-2-结论" class="headerlink" title="4.2.2 结论"></a>4.2.2 结论</h4><ul>
+<li>只有 <code>var</code> 声明的变量部分会被提升，而函数赋值不会被提升。</li>
+<li>访问 <code>var</code> 声明的函数表达式变量时，值是 <code>undefined</code>，调用时会触发 <code>TypeError</code>。</li>
+</ul>
+<hr>
+<h2 id="5-关键总结"><a href="#5-关键总结" class="headerlink" title="5. 关键总结"></a>5. 关键总结</h2><table>
+<thead>
+<tr>
+<th>变量&#x2F;函数类型</th>
+<th>是否提升？</th>
+<th>是否初始化？</th>
+<th>是否可提前使用？</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>var</code> 变量</td>
+<td>✅ 是</td>
+<td>✅ <code>undefined</code></td>
+<td>⚠️ 只能访问 <code>undefined</code></td>
+</tr>
+<tr>
+<td><code>let</code> 变量</td>
+<td>✅ 是</td>
+<td>❌ 否（TDZ）</td>
+<td>❌ 访问会报错</td>
+</tr>
+<tr>
+<td><code>const</code> 变量</td>
+<td>✅ 是</td>
+<td>❌ 否（TDZ）</td>
+<td>❌ 访问会报错</td>
+</tr>
+<tr>
+<td>函数声明 <code>function foo() &#123;&#125;</code></td>
+<td>✅ 是</td>
+<td>✅ 是</td>
+<td>✅ 可以提前调用</td>
+</tr>
+<tr>
+<td>函数表达式 <code>var bar = function() &#123;&#125;</code></td>
+<td>✅ 是（<code>var bar</code> 提升）</td>
+<td>❌ 否</td>
+<td>❌ 访问 <code>undefined</code>，调用时报错</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="6-最佳实践"><a href="#6-最佳实践" class="headerlink" title="6. 最佳实践"></a>6. 最佳实践</h2><ol>
+<li>**使用 <code>let</code> 和 <code>const</code> 代替 <code>var</code>**，避免变量提升带来的问题。</li>
+<li><strong>变量声明尽量放在作用域的顶部</strong>，减少意外行为。</li>
+<li><strong>在调用前定义函数</strong>，提高代码可读性和可维护性。</li>
+<li><strong>避免在块级作用域外访问 <code>let</code> 或 <code>const</code> 变量</strong>，防止 <code>TDZ</code> 错误。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm6yo46im000amfozbrxj8y6v" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/02/06/js-lexical-scope/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaScript 的词法作用域（Lexical Scope）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bug/" rel="tag">Bug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/10/js-hoisting/">JavaScript 提升（Hoisting）</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/06/js-lexical-scope/">JavaScript 的词法作用域（Lexical Scope）</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/05/js-lhs-rhs/">JavaScript中LHS和RHS的区别</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(skiplist)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/android-appcrash-nullexception/">Android开发中java.lang.NullableException导致的app crash</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 xuexiangxu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
