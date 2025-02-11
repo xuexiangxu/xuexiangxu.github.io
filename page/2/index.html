@@ -77,6 +77,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ui-vc-lifecycle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/08/04/ui-vc-lifecycle/" class="article-date">
+  <time class="dt-published" datetime="2023-08-04T13:33:28.000Z" itemprop="datePublished">2023-08-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/08/04/ui-vc-lifecycle/">iOS中的UIViewController生命周期</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="viewDidLoad"><a href="#viewDidLoad" class="headerlink" title="viewDidLoad()"></a><code>viewDidLoad()</code></h2><p>在content view在内存中被创建，或者从Storyboard加载时调用<br>适合设置Notification、从Internet加载数据，设置一些UI的初始状态</p>
+<h2 id="viewWillAppear-animated-Bool"><a href="#viewWillAppear-animated-Bool" class="headerlink" title="viewWillAppear(_ animated: Bool)"></a><code>viewWillAppear(_ animated: Bool)</code></h2><p>在content view将要被加载到View hierarchy中时调用<br>不显示在屏幕上的情况：</p>
+<ul>
+<li>当前view controller的view被另一个view controller的view覆盖</li>
+<li>当前view controller的view的IsHidden属性被设置为true</li>
+</ul>
+<h2 id="viewDidAppear-animated-Bool"><a href="#viewDidAppear-animated-Bool" class="headerlink" title="viewDidAppear(_ animated: Bool)"></a><code>viewDidAppear(_ animated: Bool)</code></h2><p>在content view已经被加载到View hierarchy中时调用<br>适合执行一些动画，以及通过API加载数据</p>
+<h2 id="viewWillDisappear-animated-Bool"><a href="#viewWillDisappear-animated-Bool" class="headerlink" title="viewWillDisappear(_ animated: Bool)"></a><code>viewWillDisappear(_ animated: Bool)</code></h2><p>在content view将要从View hierarchy中移除时调用</p>
+<h2 id="viewDidDisappear-animated-Bool"><a href="#viewDidDisappear-animated-Bool" class="headerlink" title="viewDidDisappear(_ animated: Bool)"></a><code>viewDidDisappear(_ animated: Bool)</code></h2><p>在content view已经从View hierarchy中移除时调用</p>
+<h2 id="viewWillLayoutSubviews"><a href="#viewWillLayoutSubviews" class="headerlink" title="viewWillLayoutSubviews()"></a><code>viewWillLayoutSubviews()</code></h2><p>在content view的bounds发生改变时，但lays out它的subviews之前调用<br>比如：当设备旋转时，会调用这个方法</p>
+<h2 id="viewDidLayoutSubviews"><a href="#viewDidLayoutSubviews" class="headerlink" title="viewDidLayoutSubviews()"></a><code>viewDidLayoutSubviews()</code></h2><p>在content view的bounds发生改变时，但lays out它的subviews之后调用</p>
+<img src="/2023/08/04/ui-vc-lifecycle/view-lifecycle.png" class="">
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm70daglc001um6q9gas44efk" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-ios-tips" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/08/03/ios-tips/" class="article-date">
@@ -114,7 +169,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm709k4tf0003m5n5hranatts" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm70dagkr0003m6q9eiju33fv" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -180,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm709k4tg0005m5n5enwo27bc" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm70dagks0005m6q91jzf9afm" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -343,7 +398,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm709k4th0006m5n500d3a182" data-title="iOS中的View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm70dagkt0006m6q9dihf8gzb" data-title="iOS中的View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -474,7 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cm709k4ti0009m5n52v5q8wnh" data-title="iOS中的View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cm70dagkv0009m6q91zfj7jxl" data-title="iOS中的View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -532,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="cm709k4u1001qm5n584ifg685" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="cm70daglc001sm6q9h75kad9o" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -603,6 +658,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/11/js-object-1/">JavaScript中的对象</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/11/js-this/">JavaScript 中的 this</a>
           </li>
         
@@ -616,10 +675,6 @@
         
           <li>
             <a href="/2025/02/06/js-lexical-scope/">JavaScript 的词法作用域（Lexical Scope）</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/05/js-lhs-rhs/">JavaScript中LHS和RHS的区别</a>
           </li>
         
       </ul>
