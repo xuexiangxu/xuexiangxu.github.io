@@ -77,6 +77,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js-closure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/10/js-closure/" class="article-date">
+  <time class="dt-published" datetime="2025-02-10T16:26:37.000Z" itemprop="datePublished">2025-02-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/10/js-closure/">JavaScript中的闭包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="闭包（Closure）简介"><a href="#闭包（Closure）简介" class="headerlink" title="闭包（Closure）简介"></a>闭包（Closure）简介</h3><p>闭包（Closure）是 JavaScript 中的一个非常重要的概念，它指的是一个函数和它的词法环境（即函数定义时的作用域）绑定在一起的现象。换句话说，闭包使得一个函数可以访问其外部函数的变量，即使外部函数已经执行完毕。</p>
+<h3 id="闭包的形成"><a href="#闭包的形成" class="headerlink" title="闭包的形成"></a>闭包的形成</h3><p>闭包的形成需要满足两个条件：</p>
+<ol>
+<li><strong>函数内部定义了另一个函数</strong>。</li>
+<li><strong>内层函数引用了外层函数的变量</strong>。</li>
+</ol>
+<h3 id="闭包的特点"><a href="#闭包的特点" class="headerlink" title="闭包的特点"></a>闭包的特点</h3><ul>
+<li><strong>访问外部变量</strong>：闭包允许内层函数访问外层函数的变量，即使外层函数已经执行完毕。</li>
+<li><strong>持有外部环境的引用</strong>：内层函数持有外层函数作用域的引用，所以即使外层函数已经返回，外层函数的变量依然会存在。</li>
+</ul>
+<h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">0</span>;  <span class="comment">// 外部函数的局部变量</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;  <span class="comment">// 返回一个内部函数</span></span><br><span class="line">    count++;  <span class="comment">// 内部函数可以访问外部函数的局部变量</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> counter = <span class="title function_">outer</span>();  <span class="comment">// 调用外部函数，返回内部函数</span></span><br><span class="line"><span class="title function_">counter</span>();  <span class="comment">// 输出 1</span></span><br><span class="line"><span class="title function_">counter</span>();  <span class="comment">// 输出 2</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>inner</code> 函数是 <code>outer</code> 函数的闭包，它能够访问 <code>outer</code> 函数中的 <code>count</code> 变量。即使 <code>outer</code> 函数已经执行结束，<code>count</code> 变量依然存在，因为 <code>inner</code> 函数仍然持有对 <code>count</code> 的引用。</p>
+<h3 id="闭包的常见用途"><a href="#闭包的常见用途" class="headerlink" title="闭包的常见用途"></a>闭包的常见用途</h3><ol>
+<li><strong>数据封装</strong>：使用闭包可以创建私有变量，使得外部代码无法直接访问和修改这些变量，只能通过闭包提供的方法访问或修改。</li>
+</ol>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createCounter</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">0</span>;  <span class="comment">// 私有变量</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">increment</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      count++;</span><br><span class="line">      <span class="keyword">return</span> count;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">decrement</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      count--;</span><br><span class="line">      <span class="keyword">return</span> count;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">getCount</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> counter = <span class="title function_">createCounter</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(counter.<span class="title function_">increment</span>());  <span class="comment">// 输出 1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(counter.<span class="title function_">getCount</span>());   <span class="comment">// 输出 1</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>延迟执行</strong>：闭包常用于异步编程，如回调函数或事件处理程序中。由于闭包可以保持对外部环境的引用，它能够确保在未来某个时刻访问这些变量时，值不会丢失。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm703xxc5000am0qb3cxe617s" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-js-hoisting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/10/js-hoisting/" class="article-date">
@@ -237,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm6yo46im000amfozbrxj8y6v" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm703xxc7000dm0qb0c943whh" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -341,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm6yo46io000dmfoz5cmq62z3" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm703xxc8000gm0qb95z2dqnz" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -448,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm6yo46ip000gmfoz5mfv32v1" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm703xxcb000km0qba9ka7yvb" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -512,7 +577,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm6yo46it000nmfoze3fefuth" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm703xxce000rm0qbcmrp2b6r" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -571,7 +636,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm6yo46ia0000mfozg87pfbot" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm703xxbu0000m0qb0puy00rn" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -663,7 +728,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm6yo46if0001mfoz6xkrhock" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm703xxby0001m0qbcoi492fb" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -725,7 +790,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm6yo46ir000kmfoz0a2ndxqx" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm703xxcc000nm0qbbshsdcvx" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -780,7 +845,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm6yo46j2001lmfoz318f7zx8" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm703xxcl001qm0qb0fu64hy3" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -831,73 +896,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm6yo46ii0003mfoz78x0bx9r" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ios-ui-stack-view" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/08/03/ios-ui-stack-view/" class="article-date">
-  <time class="dt-published" datetime="2023-08-03T16:30:17.000Z" itemprop="datePublished">2023-08-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/08/03/ios-ui-stack-view/">iOS中的Stack View</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Stack View能够使用Auto Layout的能力，创建自适应设备方向、屏幕尺寸和内容变化的UI。</p>
-<p>通过<code>arrangedSubviews</code>属性管理所有View的布局</p>
-<p>这些View沿着Stack View的轴线排列，并且按照它们在<code>arrangedSubviews</code>数组里的顺序进行布局。</p>
-<p>具体的布局取决于：</p>
-<ul>
-<li>axis</li>
-<li>distribution</li>
-<li>alignment</li>
-<li>spacing</li>
-</ul>
-<p>以及其他属性</p>
-<img src="/2023/08/03/ios-ui-stack-view/ui-stack-view@2x.png" class="">
-
-<p>注意：你的职责是定义Stack View的position和size（可选的），然后Stack View会管理layout和内容的大小</p>
-<h2 id="Stack-View和自动布局（Auto-Layout）"><a href="#Stack-View和自动布局（Auto-Layout）" class="headerlink" title="Stack View和自动布局（Auto Layout）"></a>Stack View和自动布局（Auto Layout）</h2><p>Stack View把它第一个和最后一个View与Stack的轴的边界（edge）对齐</p>
-<p>如果设置了<code>isLayoutMarginsRelativeArrangement</code>属性为true，Stack View会包含margin的空间</p>
-<p>对于除了<code>UIStackView.Distribution.fillEqually</code>以外的distribution，Stack View会根据每个arranged view到<code>intrinsiceContentSize</code>的属性来计算它沿着Stack轴到大小</p>
-<p>而对于<code>UIStackView.Distribution.fillEqually</code>，则会resize所有的arranged view，使它们的大小相等</p>
-<p>Stack View会伸展所有的arranged views，来匹配沿着Stack轴的最长intrinsic size</p>
-<h2 id="常用的Stack-View布局定义"><a href="#常用的Stack-View布局定义" class="headerlink" title="常用的Stack View布局定义"></a>常用的Stack View布局定义</h2><h3 id="只定义position"><a href="#只定义position" class="headerlink" title="只定义position"></a>只定义position</h3><img src="/2023/08/03/ios-ui-stack-view/position-only.png" class="">
-<h3 id="定义沿着轴的size"><a href="#定义沿着轴的size" class="headerlink" title="定义沿着轴的size"></a>定义沿着轴的size</h3><img src="/2023/08/03/ios-ui-stack-view/size-along-axis.png" class="">
-<h3 id="定义垂直于轴的size"><a href="#定义垂直于轴的size" class="headerlink" title="定义垂直于轴的size"></a>定义垂直于轴的size</h3><img src="/2023/08/03/ios-ui-stack-view/size-perpendicular-axis.png" class="">
-<h3 id="定义size和position"><a href="#定义size和position" class="headerlink" title="定义size和position"></a>定义size和position</h3><img src="/2023/08/03/ios-ui-stack-view/size-position.png" class="">
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm6yo46ik0005mfoz0qcc2ti4" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm703xxc10003m0qb3x3h9b3r" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -968,6 +967,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/10/js-closure/">JavaScript中的闭包</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/10/js-hoisting/">JavaScript 提升（Hoisting）</a>
           </li>
         
@@ -981,10 +984,6 @@
         
           <li>
             <a href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(skiplist)</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/17/android-appcrash-nullexception/">Android开发中java.lang.NullableException导致的app crash</a>
           </li>
         
       </ul>
