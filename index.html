@@ -77,9 +77,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-js-object-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-js-object" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/02/11/js-object-1/" class="article-date">
+    <a href="/2025/02/11/js-object/" class="article-date">
   <time class="dt-published" datetime="2025-02-11T18:55:59.000Z" itemprop="datePublished">2025-02-11</time>
 </a>
     
@@ -95,7 +95,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/02/11/js-object-1/">JavaScript中的对象</a>
+      <a class="p-name article-title" href="/2025/02/11/js-object/">JavaScript中的对象</a>
     </h1>
   
 
@@ -191,11 +191,16 @@
 <h3 id="3-8-存在性"><a href="#3-8-存在性" class="headerlink" title="3.8 存在性"></a>3.8 存在性</h3><p>检查对象是否具有某个属性：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;a&quot;</span> <span class="keyword">in</span> obj); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="title function_">hasOwnProperty</span>(<span class="string">&quot;a&quot;</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="property">a</span> !== <span class="literal">undefined</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="4-遍历"><a href="#4-遍历" class="headerlink" title="4. 遍历"></a>4. 遍历</h2><p><code>for..in</code>循环可以用来遍历对象的可枚举属性列表<br>只有属性是可枚举的<code>enumerable:true</code>，才会出现在<code>for..in</code>列表中<br>数组上应用<code>for..in</code>循环会产生出人意料的结果，因为这种美剧不仅会包含所有数值索引，还会包含所有可枚举索引。最好只在对象上应用<code>for..in</code>循环</p>
+<p>如果遍历属性的值呢？<br>ES6增加了一种用来遍历数组的<code>for..of</code>语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myArray = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> v <span class="keyword">of</span> myArray) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(v);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<p><code>for..of</code>循环首先会向被访问对象请求一个迭代器对象，然后通过调用迭代器对象的<code>next()</code>方法来遍历所有返回值<br>数组有内置的<code>@@iterator</code>，因此<code>for..of</code>可以直接应用在数组上。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-object-1/" data-id="cm70dagl2000nm6q9hnlg30kg" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm70dr7de000nn9pz4dyvbtoy" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -351,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm70dagl4000rm6q9a3nbgtp8" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm70dr7dg000rn9pz8d9ghexj" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -416,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm70dagkv000am6q90myie5o6" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm70dr7da000dn9pze54z0r5l" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -590,7 +595,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm70dagky000dm6q9640jgqvg" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm70dr7d8000an9pzexl586lu" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -694,7 +699,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm70dagkz000gm6q9dgj6b7fr" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm70dr7db000gn9pzalkj3p6g" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -801,7 +806,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm70dagl1000km6q9a4h333xy" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm70dr7dd000kn9pz26u44nyx" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -865,7 +870,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm70daglb001qm6q922dbgld7" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm70dr7do001qn9pz0y71hks3" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -924,7 +929,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm70dagkk0000m6q970vy27ca" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm70dr7cw0000n9pz0rc9gkmr" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1016,7 +1021,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm70dagko0001m6q98dgg52pf" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm70dr7d10001n9pz6z954oru" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1078,7 +1083,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm70daglb001pm6q91rhkdujm" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm70dr7do001pn9pzh9bl98pc" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1149,7 +1154,7 @@
       <ul>
         
           <li>
-            <a href="/2025/02/11/js-object-1/">JavaScript中的对象</a>
+            <a href="/2025/02/11/js-object/">JavaScript中的对象</a>
           </li>
         
           <li>
