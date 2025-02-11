@@ -235,3 +235,24 @@ console.log(obj.hasOwnProperty("a")); // true
 console.log(obj.a !== undefined); // true
 ```
 
+## 4. 遍历
+
+`for..in`循环可以用来遍历对象的可枚举属性列表
+只有属性是可枚举的`enumerable:true`，才会出现在`for..in`列表中
+数组上应用`for..in`循环会产生出人意料的结果，因为这种美剧不仅会包含所有数值索引，还会包含所有可枚举索引。最好只在对象上应用`for..in`循环
+
+如果遍历属性的值呢？
+ES6增加了一种用来遍历数组的`for..of`语法
+
+```js
+var myArray = [1, 2, 3];
+for (var v of myArray) {
+    console.log(v);
+}
+// 1
+// 2
+// 3
+```
+
+`for..of`循环首先会向被访问对象请求一个迭代器对象，然后通过调用迭代器对象的`next()`方法来遍历所有返回值
+数组有内置的`@@iterator`，因此`for..of`可以直接应用在数组上。
