@@ -77,6 +77,155 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js-iterator-generator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/12/js-iterator-generator/" class="article-date">
+  <time class="dt-published" datetime="2025-02-12T12:11:17.000Z" itemprop="datePublished">2025-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/12/js-iterator-generator/">JavaScript中的迭代器和生成器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在 JavaScript 中，<strong>迭代器（Iterator）</strong> 和 <strong>生成器（Generator）</strong> 是用于 <strong>遍历数据结构</strong> 和 <strong>实现惰性计算</strong> 的强大工具。它们与 <code>for...of</code>、<code>Symbol.iterator</code> 以及 <code>yield</code> 关键字密切相关，可以帮助我们更高效地处理 <strong>流数据</strong>、<strong>自定义遍历</strong> 和 <strong>异步任务</strong>。  </p>
+<hr>
+<h2 id="1-迭代器（Iterator）"><a href="#1-迭代器（Iterator）" class="headerlink" title="1. 迭代器（Iterator）"></a><strong>1. 迭代器（Iterator）</strong></h2><h3 id="1-1-什么是迭代器？"><a href="#1-1-什么是迭代器？" class="headerlink" title="1.1 什么是迭代器？"></a><strong>1.1 什么是迭代器？</strong></h3><p>迭代器（Iterator）是一种 <strong>按顺序访问集合元素</strong> 的方式，但不暴露其底层实现。它提供了一个 <code>next()</code> 方法，每次调用 <code>next()</code> 都会返回一个对象：</p>
+<ul>
+<li><code>&#123; value: 数据, done: false &#125;</code> —— <strong>表示当前值和未完成的状态</strong></li>
+<li><code>&#123; value: undefined, done: true &#125;</code> —— <strong>表示迭代结束</strong></li>
+</ul>
+<h3 id="1-2-迭代器的基本实现"><a href="#1-2-迭代器的基本实现" class="headerlink" title="1.2 迭代器的基本实现"></a><strong>1.2 迭代器的基本实现</strong></h3><p>迭代器本质上是一个 <strong>实现了 <code>next()</code> 方法的对象</strong>，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createIterator</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">next</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (index &lt; array.<span class="property">length</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123; <span class="attr">value</span>: array[index++], <span class="attr">done</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123; <span class="attr">value</span>: <span class="literal">undefined</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用迭代器</span></span><br><span class="line"><span class="keyword">const</span> iterator = <span class="title function_">createIterator</span>([<span class="string">&#x27;apple&#x27;</span>, <span class="string">&#x27;banana&#x27;</span>, <span class="string">&#x27;cherry&#x27;</span>]);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;apple&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;banana&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;cherry&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; value: undefined, done: true &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong></p>
+<ul>
+<li>迭代器不会自动迭代，而是需要手动调用 <code>next()</code>。</li>
+<li>需要手动维护 <code>index</code> 变量。</li>
+</ul>
+<hr>
+<h3 id="1-3-Symbol-iterator-和可迭代对象"><a href="#1-3-Symbol-iterator-和可迭代对象" class="headerlink" title="1.3 Symbol.iterator 和可迭代对象"></a><strong>1.3 <code>Symbol.iterator</code> 和可迭代对象</strong></h3><p>如果对象 <strong>实现了 <code>Symbol.iterator</code> 方法</strong>，它就是 <strong>可迭代对象（Iterable）</strong>，可以被 <code>for...of</code>、<code>Array.from()</code> 这样的迭代方法使用。</p>
+<h4 id="1-3-1-自定义可迭代对象"><a href="#1-3-1-自定义可迭代对象" class="headerlink" title="1.3.1 自定义可迭代对象"></a><strong>1.3.1 自定义可迭代对象</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> iterable = &#123;</span><br><span class="line">    <span class="attr">data</span>: [<span class="string">&#x27;one&#x27;</span>, <span class="string">&#x27;two&#x27;</span>, <span class="string">&#x27;three&#x27;</span>],</span><br><span class="line">    [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">next</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> index &lt; <span class="variable language_">this</span>.<span class="property">data</span>.<span class="property">length</span></span><br><span class="line">                    ? &#123; <span class="attr">value</span>: <span class="variable language_">this</span>.<span class="property">data</span>[index++], <span class="attr">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">                    : &#123; <span class="attr">value</span>: <span class="literal">undefined</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过 for...of 进行迭代</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> item <span class="keyword">of</span> iterable) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(item); <span class="comment">// one, two, three</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<ul>
+<li><code>Symbol.iterator</code> 返回的是一个 <strong>迭代器对象</strong>，这个对象必须实现 <code>next()</code> 方法。</li>
+<li><code>for...of</code> 会自动调用 <code>next()</code>，无需手动调用。</li>
+</ul>
+<hr>
+<h3 id="1-4-JavaScript-内置可迭代对象"><a href="#1-4-JavaScript-内置可迭代对象" class="headerlink" title="1.4 JavaScript 内置可迭代对象"></a><strong>1.4 JavaScript 内置可迭代对象</strong></h3><p><strong>默认实现 <code>Symbol.iterator</code> 的数据结构</strong></p>
+<ul>
+<li><strong>数组（Array）</strong></li>
+<li><strong>字符串（String）</strong></li>
+<li><strong>Map 和 Set</strong></li>
+<li><strong>TypedArray</strong></li>
+<li><strong>函数参数对象（arguments）</strong></li>
+<li><strong>NodeList（部分浏览器实现）</strong></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> str = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> iter = str[<span class="title class_">Symbol</span>.<span class="property">iterator</span>]();</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iter.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;H&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iter.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;e&#x27;, done: false &#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-生成器（Generator）"><a href="#2-生成器（Generator）" class="headerlink" title="2. 生成器（Generator）"></a><strong>2. 生成器（Generator）</strong></h2><h3 id="2-1-什么是生成器？"><a href="#2-1-什么是生成器？" class="headerlink" title="2.1 什么是生成器？"></a><strong>2.1 什么是生成器？</strong></h3><p>生成器（Generator）是一种特殊的函数，它可以 <strong>暂停和恢复执行</strong>，使用 <code>function*</code> 关键字定义，并通过 <code>yield</code> 关键字返回多个值。</p>
+<p><strong>特点</strong></p>
+<ul>
+<li><strong>调用生成器函数不会立即执行，而是返回一个迭代器</strong>。</li>
+<li><strong>调用 <code>next()</code> 时，执行到 <code>yield</code> 语句并暂停</strong>，下次调用时从暂停的地方继续。</li>
+<li><strong><code>yield</code> 返回的是一个值，而不是一个完整的对象</strong>。</li>
+</ul>
+<h3 id="2-2-生成器的基本使用"><a href="#2-2-生成器的基本使用" class="headerlink" title="2.2 生成器的基本使用"></a><strong>2.2 生成器的基本使用</strong></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">myGenerator</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;B&#x27;</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;C&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> gen = <span class="title function_">myGenerator</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(gen.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;A&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(gen.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;B&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(gen.<span class="title function_">next</span>()); <span class="comment">// &#123; value: &#x27;C&#x27;, done: false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(gen.<span class="title function_">next</span>()); <span class="comment">// &#123; value: undefined, done: true &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong></p>
+<ul>
+<li><code>yield</code> 使函数暂停执行，下次 <code>next()</code> 继续执行。</li>
+<li>生成器返回的是一个 <strong>迭代器对象</strong>。</li>
+</ul>
+<hr>
+<h3 id="2-3-for-of-遍历生成器"><a href="#2-3-for-of-遍历生成器" class="headerlink" title="2.3 for...of 遍历生成器"></a><strong>2.3 <code>for...of</code> 遍历生成器</strong></h3><p>生成器本质上是一个 <strong>可迭代对象</strong>，可以用 <code>for...of</code> 遍历：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">countUp</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> <span class="title function_">countUp</span>()) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value); <span class="comment">// 1, 2, 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优点</strong></p>
+<ul>
+<li><code>for...of</code> <strong>自动处理 <code>done</code> 状态</strong>，不需要手动调用 <code>next()</code>。</li>
+</ul>
+<hr>
+<h3 id="2-4-生成器的应用"><a href="#2-4-生成器的应用" class="headerlink" title="2.4 生成器的应用"></a><strong>2.4 生成器的应用</strong></h3><h4 id="2-4-1-生成无限序列"><a href="#2-4-1-生成无限序列" class="headerlink" title="2.4.1 生成无限序列"></a><strong>2.4.1 生成无限序列</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">infiniteNumbers</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> num = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">yield</span> num++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> infiniteGen = <span class="title function_">infiniteNumbers</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(infiniteGen.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(infiniteGen.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(infiniteGen.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>适用场景</strong></p>
+<ul>
+<li>生成 <strong>无限序列</strong>（如斐波那契数列）。</li>
+<li>按需生成数据，节省内存。</li>
+</ul>
+<h4 id="2-4-2-斐波那契数列"><a href="#2-4-2-斐波那契数列" class="headerlink" title="2.4.2 斐波那契数列"></a><strong>2.4.2 斐波那契数列</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">fibonacci</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> [prev, curr] = [<span class="number">0</span>, <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">yield</span> curr;</span><br><span class="line">        [prev, curr] = [curr, prev + curr];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fib = <span class="title function_">fibonacci</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(fib.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(fib.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(fib.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(fib.<span class="title function_">next</span>().<span class="property">value</span>); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-迭代器-vs-生成器"><a href="#3-迭代器-vs-生成器" class="headerlink" title="3. 迭代器 vs 生成器"></a><strong>3. 迭代器 vs 生成器</strong></h2><table>
+<thead>
+<tr>
+<th><strong>特点</strong></th>
+<th><strong>迭代器（Iterator）</strong></th>
+<th><strong>生成器（Generator）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>定义方式</strong></td>
+<td>手动实现 <code>next()</code></td>
+<td>使用 <code>function*</code></td>
+</tr>
+<tr>
+<td><strong>状态维护</strong></td>
+<td>需要手动维护索引</td>
+<td><code>yield</code> 自动管理状态</td>
+</tr>
+<tr>
+<td><strong>惰性计算</strong></td>
+<td>需要手动控制</td>
+<td>默认支持</td>
+</tr>
+<tr>
+<td><strong>代码简洁度</strong></td>
+<td>代码较繁琐</td>
+<td>代码更简洁</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-结论"><a href="#4-结论" class="headerlink" title="4. 结论"></a><strong>4. 结论</strong></h2><ul>
+<li><strong>迭代器适用于</strong> 自定义遍历逻辑，需要手动维护 <code>next()</code> 。</li>
+<li><strong>生成器适用于</strong> 惰性计算、数据流处理，代码更简洁。</li>
+<li><strong><code>Symbol.iterator</code> 使对象可迭代</strong>，结合 <code>for...of</code> 提供更优雅的遍历方式。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/12/js-iterator-generator/" data-id="cm71eh1ed000gm7q57qcs63te" data-title="JavaScript中的迭代器和生成器" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-js-object" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/11/js-object/" class="article-date">
@@ -200,7 +349,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm70dr7de000nn9pz4dyvbtoy" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm71eh1eg000nm7q513jj7ulp" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -356,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm70dr7dg000rn9pz8d9ghexj" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm71eh1ej000um7q51k4u9etk" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -421,7 +570,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm70dr7da000dn9pze54z0r5l" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm71eh1e90009m7q51txf9h2q" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -595,7 +744,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm70dr7d8000an9pzexl586lu" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm71eh1ec000dm7q56x5ubjei" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -699,7 +848,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm70dr7db000gn9pzalkj3p6g" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm71eh1ef000km7q5gkahbbu5" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -806,7 +955,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm70dr7dd000kn9pz26u44nyx" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm71eh1ei000rm7q5ajva3zr4" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -870,7 +1019,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm70dr7do001qn9pz0y71hks3" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm71eh1el0010m7q523ov8bx4" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -929,7 +1078,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm70dr7cw0000n9pz0rc9gkmr" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm71eh1dy0000m7q5hgko4gw0" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1021,73 +1170,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm70dr7d10001n9pz6z954oru" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm71eh1e30001m7q50t8qgyot" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-react-children-re-render" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/08/04/react-children-re-render/" class="article-date">
-  <time class="dt-published" datetime="2023-08-04T21:10:09.000Z" itemprop="datePublished">2023-08-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/React/">React</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/08/04/react-children-re-render/">React Component - 子组件什么时候会re-render</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://whereisthemouse.com/react-components-when-do-children-re-render">https://whereisthemouse.com/react-components-when-do-children-re-render</a></p>
-<p>React children什么时候re-render？<br>答案似乎很简单：</p>
-<ul>
-<li>它们的props&#x2F;state发生改变</li>
-<li>它们的parent component re-render</li>
-</ul>
-<p>然而，还有更多</p>
-<h2 id="通常的情况"><a href="#通常的情况" class="headerlink" title="通常的情况"></a>通常的情况</h2><p>当我们点击ParentComponent的Button时，ChildComponent会re-render吗？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ChildComponent</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I re-rendered&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ParentComponent</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> setCount(number + 1)&#125;&gt;&#123;count&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ChildComponent</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">ParentComponent</span>;</span><br></pre></td></tr></table></figure>
-<p>当然会的！<br>但是，ChildComponent实在是不必要去re-render。那么该怎么做？</p>
-<h2 id="方法一-React-memo"><a href="#方法一-React-memo" class="headerlink" title="方法一 React.memo"></a>方法一 React.memo</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; memo &#125; <span class="keyword">from</span> <span class="string">&#x27;React&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ChildComponent</span> = <span class="title function_">memo</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I re-rendered&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="方法二-children-as-a-prop"><a href="#方法二-children-as-a-prop" class="headerlink" title="方法二 children as a prop"></a>方法二 children as a prop</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">ChildComponent</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I re-rendered&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ParentComponent</span> = (<span class="params">&#123; children &#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> setCount(number + 1)&#125;&gt;&#123;number&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;children&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ParentComponent</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ChildComponent</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ParentComponent</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="应用-React-Context"><a href="#应用-React-Context" class="headerlink" title="应用 - React Context"></a>应用 - React Context</h2><p>假设我们有一个非常重的React subtree，我们不想经常re-render它<br>下面代码，在每一次点击按钮都会导致两个Child组件re-render</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useContext, createContext &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Context</span> = <span class="title function_">createContext</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ChildWithCount</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; count, setCount &#125; = <span class="title function_">useContext</span>(<span class="title class_">Context</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;ChildWithCount re-renders&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> setCount(count + 1)&#125;&gt;&#123;count&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ExpensiveChild</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;ExpensiveChild re-renders&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Expensive child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">CountContext</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> contextValue = &#123; count, setCount &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">Context.Provider</span> <span class="attr">value</span>=<span class="string">&#123;contextValue&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ChildWithCount</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ExpensiveChild</span> /&gt;</span> // Imagine re-rendering this component is expensive</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">Context.Provider</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">CountContext</span> /&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span>;</span><br></pre></td></tr></table></figure>
-
-<p>我们可以利用之前所提到的方法改变它们的结构，把children作为一个prop，从而避免无关的同级组件re-render</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useContext, createContext &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Context</span> = <span class="title function_">createContext</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ChildWithCount</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; count, setCount &#125; = <span class="title function_">useContext</span>(<span class="title class_">Context</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;ChildWithCount re-renders&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> setCount(count + 1)&#125;&gt;&#123;count&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ExpensiveChild</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;ExpensiveChild re-renders&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Expensive child<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">CountContext</span> = (<span class="params">&#123; children &#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> contextValue = &#123; count, setCount &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Context.Provider</span> <span class="attr">value</span>=<span class="string">&#123;contextValue&#125;</span>&gt;</span>&#123;children&#125;<span class="tag">&lt;/<span class="name">Context.Provider</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">CountContext</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ChildWithCount</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ExpensiveChild</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">CountContext</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span>;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm70dr7do001pn9pzh9bl98pc" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li></ul>
 
     </footer>
   </div>
@@ -1132,7 +1219,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a>
     </div>
   </div>
 
@@ -1154,6 +1241,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/12/js-iterator-generator/">JavaScript中的迭代器和生成器</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/11/js-object/">JavaScript中的对象</a>
           </li>
         
@@ -1167,10 +1258,6 @@
         
           <li>
             <a href="/2025/02/10/js-hoisting/">JavaScript 提升（Hoisting）</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/06/js-lexical-scope/">JavaScript 的词法作用域（Lexical Scope）</a>
           </li>
         
       </ul>
