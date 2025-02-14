@@ -77,6 +77,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-redis-skip-list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/18/redis-skip-list/" class="article-date">
+  <time class="dt-published" datetime="2024-11-18T20:58:57.000Z" itemprop="datePublished">2024-11-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/18/redis-skip-list/">Redis中的跳跃表(skiplist)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>跳跃表(skiplist)是一种有序数据结构，支持平均O(log(N))，最坏O(N)复杂度的节点查找</p>
+<p>查找：平均O(log(N))<br>插入：平均O(log(N))</p>
+<p>Redis使用跳跃表作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量比较多，或者成员是比较长的字符串时，Redis就会使用跳跃表来作为有序集合键的底层实现</p>
+<h1 id="创建跳跃表"><a href="#创建跳跃表" class="headerlink" title="创建跳跃表"></a>创建跳跃表</h1><p>一开始有N个元素，按照从小到大排列：</p>
+<p>2 -&gt; 8 -&gt; 10 -&gt; 11 -&gt; 13 -&gt; 19 -&gt; 20 -&gt; 22 -&gt; 26 -&gt; 30</p>
+<p>可以用单向列表来存储，链表的缺点在于无法随机访问，查找很慢</p>
+<p>现在在链表的基础上改进，首先在开头加一个节点Sentinel</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l0.png" class="">
+
+<p>L0层的指针一个接一个，没有跳跃<br>从L1层开始有跳跃，现在开始添加L1层的指针</p>
+<p>跳跃表随机决定节点高度是否增长，进过一轮循环，得到L1层：</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l1.png" class="">
+
+<p>再经过一轮循环，得到L2层：</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l2.png" class="">
+
+<p>再经过一轮循环，得到L3层：</p>
+<img src="/2024/11/18/redis-skip-list/skiplist-l3.png" class="">
+
+<p>跳跃列表的层数由用户自己决定<br>最好用log(N)层，可以保证查找和插入复杂度都是log(N)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm74iq3rk001cl9oc50lv68li" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-android-appcrash-nullexception" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/11/17/android-appcrash-nullexception/" class="article-date">
@@ -122,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm74i5hkn0000meq015v18bg7" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm74iq3qx0000l9ocaw5w143q" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -214,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm74i5hku0003meq0abye4gsm" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm74iq3r10001l9occi6x2elf" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -276,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm74i5hle001pmeq0hvf2esz8" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm74iq3rj0015l9oc8bi09o4p" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -331,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm74i5hlg001vmeq054it11tz" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm74iq3rq0026l9oc9qbo2rfg" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -382,7 +446,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm74i5hkv0005meq0a4lk6ezd" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm74iq3r70006l9oc3xvscw9m" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -448,7 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm74i5hkw0006meq0bbimelmp" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm74iq3r80009l9oc6qtzhw5l" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -611,7 +675,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm74i5hky0009meq033qjdu7q" data-title="iOS中的View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm74iq3r9000al9oc6res3r8p" data-title="iOS中的View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -742,7 +806,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cm74i5hkz000ameq04x8ufljd" data-title="iOS中的View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cm74iq3ra000dl9ocb34s9s7x" data-title="iOS中的View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -800,7 +864,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="cm74i5hlg001tmeq08tas33ws" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="cm74iq3rp0025l9oc14px36zk" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -849,7 +913,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/DOM/" style="font-size: 13.33px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 16.67px;">iOS</a>
     </div>
   </div>
 
@@ -871,6 +935,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/14/dom-event-target/">event.target 和 event.currentTarget</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/14/dom-event-bubbling/">事件冒泡</a>
           </li>
         
@@ -884,10 +952,6 @@
         
           <li>
             <a href="/2025/02/11/js-object/">JavaScript中的对象</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/11/js-this/">JavaScript 中的 this</a>
           </li>
         
       </ul>
