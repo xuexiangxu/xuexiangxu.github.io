@@ -77,6 +77,94 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-dom-event-bubbling" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/14/dom-event-bubbling/" class="article-date">
+  <time class="dt-published" datetime="2025-02-14T16:18:55.000Z" itemprop="datePublished">2025-02-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/14/dom-event-bubbling/">事件冒泡</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>事件冒泡（Event Bubbling）</strong> 是 DOM 事件传播的一种机制。它描述了事件从目标元素开始，逐级向上冒泡到父元素、祖先元素，直到 <code>document</code> 对象的过程。</p>
+<h3 id="事件冒泡的过程"><a href="#事件冒泡的过程" class="headerlink" title="事件冒泡的过程"></a>事件冒泡的过程</h3><ol>
+<li>当用户在一个元素上触发事件时，事件首先会在该元素上被处理（目标元素）。</li>
+<li>然后事件会冒泡到该元素的父元素，接着是父元素的父元素，直到 <code>document</code> 对象。</li>
+<li>事件会按照这个顺序进行传播，直到事件到达最顶层的元素或者被阻止。</li>
+</ol>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>假设有如下的 HTML 结构：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;parent&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;child&quot;</span>&gt;</span>点击我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>并且在 JavaScript 中给父元素和子元素分别绑定了事件监听器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;parent&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;父元素被点击&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;child&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;子元素被点击&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>当你点击按钮时，事件首先会在按钮上触发（目标元素），然后冒泡到父元素 <code>div</code> 上。输出结果将是：</p>
+<ol>
+<li><code>&quot;子元素被点击&quot;</code>（按钮的点击事件）</li>
+<li><code>&quot;父元素被点击&quot;</code>（父 <code>div</code> 的点击事件）</li>
+</ol>
+<h3 id="为什么叫“冒泡”？"><a href="#为什么叫“冒泡”？" class="headerlink" title="为什么叫“冒泡”？"></a>为什么叫“冒泡”？</h3><p>就像水滴从水面滴下，事件从目标元素冒泡到最顶层一样，因此叫做“事件冒泡”。</p>
+<h3 id="阻止事件冒泡"><a href="#阻止事件冒泡" class="headerlink" title="阻止事件冒泡"></a>阻止事件冒泡</h3><p>你可以使用 <code>event.stopPropagation()</code> 来阻止事件继续冒泡到父元素。</p>
+<p><strong>例子</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;child&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;子元素被点击&#x27;</span>);</span><br><span class="line">  event.<span class="title function_">stopPropagation</span>();  <span class="comment">// 阻止冒泡</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这时，点击按钮时，只会显示 <code>&quot;子元素被点击&quot;</code>，父元素的点击事件不会被触发。</p>
+<h2 id="event-preventDefault-和-event-stopPropagation-的区别"><a href="#event-preventDefault-和-event-stopPropagation-的区别" class="headerlink" title="event.preventDefault() 和 event.stopPropagation()的区别"></a><code>event.preventDefault()</code> 和 <code>event.stopPropagation()</code>的区别</h2><p><code>event.preventDefault()</code> 和 <code>event.stopPropagation()</code> 都是用来控制事件流的，但它们的作用不同：</p>
+<ol>
+<li><p><strong><code>event.preventDefault()</code></strong>:</p>
+<ul>
+<li>这个方法用来<strong>阻止事件的默认行为</strong>。例如，点击一个链接时，浏览器默认会跳转到链接地址。如果你调用了 <code>event.preventDefault()</code>，浏览器就不会执行这个跳转操作。</li>
+<li>它不会停止事件的传播（即事件仍然会冒泡或捕获）。</li>
+</ul>
+<p><strong>例子</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;form&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;submit&#x27;</span>, <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  event.<span class="title function_">preventDefault</span>();  <span class="comment">// 阻止表单提交</span></span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;表单未提交&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>event.stopPropagation()</code></strong>:</p>
+<ul>
+<li>这个方法用来<strong>停止事件的传播</strong>，即<strong>阻止事件冒泡</strong>（从目标元素到根元素）或<strong>捕获</strong>（从根元素到目标元素）。</li>
+<li>这意味着事件不会继续向上传播到父元素，也不会传递给其他监听该事件的元素。</li>
+</ul>
+<p><strong>例子</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;button&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  event.<span class="title function_">stopPropagation</span>();  <span class="comment">// 阻止事件冒泡</span></span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;按钮被点击&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;div&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;DIV 被点击&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，点击按钮时，只会显示 <code>&quot;按钮被点击&quot;</code>，而不会触发 <code>div</code> 的点击事件。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/14/dom-event-bubbling/" data-id="cm74i5hkr0001meq0hmzk7bt8" data-title="事件冒泡" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-js-debounce-throttle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/12/js-debounce-throttle/" class="article-date">
@@ -231,7 +319,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/12/js-debounce-throttle/" data-id="cm71im23p000dnpqa1coqhz7o" data-title="JavaScript 防抖（Debounce）和节流（Throttle）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/12/js-debounce-throttle/" data-id="cm74i5hl2000kmeq09dckgwzm" data-title="JavaScript 防抖（Debounce）和节流（Throttle）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -380,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/12/js-iterator-generator/" data-id="cm71im23s000knpqa8q6wc6wd" data-title="JavaScript中的迭代器和生成器" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/12/js-iterator-generator/" data-id="cm74i5hl5000nmeq0bluk8nov" data-title="JavaScript中的迭代器和生成器" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -517,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm71im23w000unpqaf6zz4wi3" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm74i5hl8000ymeq0geow5wk4" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -673,7 +761,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm71im23y000xnpqa3wkr8yp2" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm74i5hle001omeq05coqc6vm" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -738,7 +826,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm71im23n000anpqafe6ggah2" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm74i5hl0000dmeq04wvf0ctv" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -912,7 +1000,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm71im23q000gnpqahbi36b9k" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm74i5hl1000gmeq08h2k5bm9" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1016,7 +1104,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm71im23t000nnpqabt0m7u09" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm74i5hl6000rmeq04raqao0z" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1123,7 +1211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm71im23v000rnpqacszphik2" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm74i5hl7000umeq0etz38gd4" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1187,70 +1275,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm71im246001znpqa6h5l6xco" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm74i5hlf001rmeq0h3gd5fxm" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-android-appcrash-nullexception" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/11/17/android-appcrash-nullexception/" class="article-date">
-  <time class="dt-published" datetime="2024-11-17T22:10:35.000Z" itemprop="datePublished">2024-11-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/11/17/android-appcrash-nullexception/">Android开发中java.lang.NullableException导致的app crash</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>记录遇到的一个Bug:</p>
-<p>在写Android App时出现了一个app crash，<br>异常信息是<code>java.lang.NullPointerException</code></p>
-<p>因为新项目用的Kotlin，而同时需要用到老的Java代码</p>
-<p>原本Java代码有一个Interface：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MetaDataRefreshCallback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Exception error)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在新的Kotlin代码里实现了这个接口：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> callback = <span class="keyword">object</span> : MetadataRefreshCallback &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onComplete</span><span class="params">()</span></span> &#123;</span><br><span class="line">        continuation.resume(<span class="built_in">Unit</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onError</span><span class="params">(error: <span class="type">Exception</span>)</span></span> &#123;</span><br><span class="line">        continuation.resumeWithException(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>问题就出在Java的Exception类型可能是null，而Kotlin如果没有声明类型为Nullable，默认不会是null的。如果传了null进去，就会抛异常</p>
-<p>而这里的异常不会被外层的<code>try-catch</code>捕获，从而导致app crash</p>
-<p>Fix的代码如下：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> callback = <span class="keyword">object</span> : MetadataRefreshCallback &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onComplete</span><span class="params">()</span></span> &#123;</span><br><span class="line">        continuation.resume(<span class="built_in">Unit</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onError</span><span class="params">(error: <span class="type">Exception</span>?)</span></span> &#123;</span><br><span class="line">        continuation.resumeWithException(error ?: Exception(<span class="string">&quot;Error in refreshing items&quot;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在把Java代码转化成Kotlin时，要注意对象的null值，Java里没有Nullable类型，如果Kotlin不设置成Nullable，会认为该对象不可能为null，如果运行时出现了null，则会抛<code>java.lang.NullableException</code></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm71im2390000npqa12cggsn7" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bug/" rel="tag">Bug</a></li></ul>
 
     </footer>
   </div>
@@ -1285,7 +1314,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bug/" rel="tag">Bug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bug/" rel="tag">Bug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
     </div>
   </div>
 
@@ -1295,7 +1324,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a>
     </div>
   </div>
 
@@ -1317,6 +1346,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/14/dom-event-bubbling/">事件冒泡</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/12/js-debounce-throttle/">JavaScript 防抖（Debounce）和节流（Throttle）</a>
           </li>
         
@@ -1330,10 +1363,6 @@
         
           <li>
             <a href="/2025/02/11/js-this/">JavaScript 中的 this</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/10/js-closure/">JavaScript中的闭包</a>
           </li>
         
       </ul>
