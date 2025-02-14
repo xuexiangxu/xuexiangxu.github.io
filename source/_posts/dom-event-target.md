@@ -1,6 +1,6 @@
 ---
 title: event.target 和 event.currentTarget
-date: 2025-02-14 16:26:47
+date: 2025-02-14 16:38:47
 tags: [JavaScript, DOM]
 categories:
 - [JavaScript]
