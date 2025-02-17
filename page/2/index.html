@@ -77,6 +77,113 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js-lhs-rhs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/05/js-lhs-rhs/" class="article-date">
+  <time class="dt-published" datetime="2025-02-05T17:29:07.000Z" itemprop="datePublished">2025-02-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/05/js-lhs-rhs/">JavaScript中LHS和RHS的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在 JavaScript 中，<strong>LHS（Left-Hand Side）</strong> 和 <strong>RHS（Right-Hand Side）</strong> 主要用于描述变量查询的类型，通常出现在 <strong>作用域解析（Scope Resolution）</strong> 过程中。它们的概念来自于 JavaScript 引擎在执行代码时查找变量的方式。</p>
+<hr>
+<h2 id="LHS-查询"><a href="#LHS-查询" class="headerlink" title="LHS 查询"></a><strong>LHS 查询</strong></h2><p>LHS（左侧查询）用于查找<strong>变量的赋值目标</strong>，即<strong>变量出现在赋值运算符的左侧</strong>。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">10</span>; <span class="comment">// &#x27;a&#x27; 进行 LHS 查询</span></span><br><span class="line">    b = <span class="number">20</span>; <span class="comment">// &#x27;b&#x27; 进行 LHS 查询（但 &#x27;b&#x27; 未声明，会变成全局变量或报错）</span></span><br><span class="line">    a++; <span class="comment">// &#x27;a&#x27; 进行 LHS 查询（相当于 a = a + 1）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LHS 查询的目标是<strong>找到变量的容器，以便对其赋值</strong>。</p>
+<h3 id="RHS-查询"><a href="#RHS-查询" class="headerlink" title="RHS 查询"></a><strong>RHS 查询</strong></h3><p>RHS（右侧查询）用于<strong>获取变量的值</strong>，即<strong>变量出现在赋值运算符的右侧或作为表达式的一部分</strong>。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">demo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">5</span>; <span class="comment">// &#x27;x&#x27; 进行 LHS 查询</span></span><br><span class="line">    <span class="keyword">var</span> y = x + <span class="number">10</span>; <span class="comment">// &#x27;x&#x27; 进行 RHS 查询，因为需要获取 x 的值</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(y); <span class="comment">// &#x27;y&#x27; 进行 RHS 查询，因为 console.log 需要 y 的值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RHS 查询的目标是<strong>找到变量的值，以便使用它</strong>。</p>
+<h3 id="LHS-vs-RHS-具体示例"><a href="#LHS-vs-RHS-具体示例" class="headerlink" title="LHS vs RHS 具体示例"></a><strong>LHS vs RHS 具体示例</strong></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">example</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">5</span>;    <span class="comment">// &#x27;a&#x27; 进行 LHS 查询</span></span><br><span class="line">    <span class="keyword">var</span> b = a + <span class="number">2</span>; <span class="comment">// &#x27;a&#x27; 进行 RHS 查询，&#x27;b&#x27; 进行 LHS 查询</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(b); <span class="comment">// &#x27;b&#x27; 进行 RHS 查询</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>LHS 查询</th>
+<th>RHS 查询</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>var a = 5;</code></td>
+<td><code>a</code></td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>var b = a + 2;</code></td>
+<td><code>b</code></td>
+<td><code>a</code></td>
+</tr>
+<tr>
+<td><code>console.log(b);</code></td>
+<td>无</td>
+<td><code>b</code></td>
+</tr>
+</tbody></table>
+<h2 id="LHS-查询失败的后果"><a href="#LHS-查询失败的后果" class="headerlink" title="LHS 查询失败的后果"></a><strong>LHS 查询失败的后果</strong></h2><h3 id="1-在非严格模式下（非-use-strict）"><a href="#1-在非严格模式下（非-use-strict）" class="headerlink" title="1. 在非严格模式下（非 use strict）"></a><strong>1. 在非严格模式下（非 <code>use strict</code>）</strong></h3><ul>
+<li>如果 LHS 查询的变量未声明，JavaScript 会<strong>默认创建一个全局变量</strong>。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    x = <span class="number">100</span>; <span class="comment">// &#x27;x&#x27; 进行 LHS 查询，但未声明，因此变成全局变量</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">test</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// 100 （x 变成了全局变量）</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-在严格模式下（use-strict）"><a href="#2-在严格模式下（use-strict）" class="headerlink" title="2. 在严格模式下（use strict）"></a><strong>2. 在严格模式下（<code>use strict</code>）</strong></h3><ul>
+<li>LHS 查询找不到变量时会抛出 <code>ReferenceError</code>。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&quot;use strict&quot;</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    y = <span class="number">200</span>; <span class="comment">// LHS 查询失败，抛出 ReferenceError</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">test</span>(); <span class="comment">// Uncaught ReferenceError: y is not defined</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="RHS-查询失败的后果"><a href="#RHS-查询失败的后果" class="headerlink" title="RHS 查询失败的后果"></a><strong>RHS 查询失败的后果</strong></h2><ul>
+<li>**如果 RHS 查询的变量未找到，JavaScript 会抛出 <code>ReferenceError</code>**。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(z); <span class="comment">// RHS 查询失败，抛出 ReferenceError</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">test</span>(); <span class="comment">// Uncaught ReferenceError: z is not defined</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
+<thead>
+<tr>
+<th>查询类型</th>
+<th>作用</th>
+<th>失败时的行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>LHS 查询</strong></td>
+<td>查找<strong>变量的存储位置</strong>，用于<strong>赋值</strong></td>
+<td><strong>非严格模式</strong>：创建全局变量<br><strong>严格模式</strong>：<code>ReferenceError</code></td>
+</tr>
+<tr>
+<td><strong>RHS 查询</strong></td>
+<td>查找<strong>变量的值</strong>，用于<strong>读取</strong></td>
+<td><code>ReferenceError</code></td>
+</tr>
+</tbody></table>
+<p>LHS 主要用于赋值操作，而 RHS 主要用于取值操作。理解它们对于<strong>作用域解析</strong>和<strong>错误调试</strong>非常重要！ 🚀</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/05/js-lhs-rhs/" data-id="cm78qvrew000yngq24iorfyus" data-title="JavaScript中LHS和RHS的区别" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-redis-skip-list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/11/18/redis-skip-list/" class="article-date">
@@ -127,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm74iq3rk001cl9oc50lv68li" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/18/redis-skip-list/" data-id="cm78qvrez001cngq27gt1bxyg" data-title="Redis中的跳跃表(skiplist)" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -186,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm74iq3qx0000l9ocaw5w143q" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/17/android-appcrash-nullexception/" data-id="cm78qvre80000ngq29vwbe350" data-title="Android开发中java.lang.NullableException导致的app crash" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -278,7 +385,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm74iq3r10001l9occi6x2elf" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/07/auto-layout/" data-id="cm78qvree0001ngq26p788jcd" data-title="iOS中的Auto Layout" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -340,7 +447,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm74iq3rj0015l9oc8bi09o4p" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/react-children-re-render/" data-id="cm78qvrey0015ngq265rv4lij" data-title="React Component - 子组件什么时候会re-render" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -395,7 +502,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm74iq3rq0026l9oc9qbo2rfg" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/04/ui-vc-lifecycle/" data-id="cm78qvrf2001pngq2hrwo2fsa" data-title="iOS中的UIViewController生命周期" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -446,7 +553,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm74iq3r70006l9oc3xvscw9m" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-tips/" data-id="cm78qvrej0006ngq26hg1cll4" data-title="iOS中的translatesAutoresizingMaskIntoConstraints的使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -512,7 +619,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm74iq3r80009l9oc6qtzhw5l" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/03/ios-ui-stack-view/" data-id="cm78qvrel0009ngq2h6b56bxz" data-title="iOS中的Stack View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -675,7 +782,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm74iq3r9000al9oc6res3r8p" data-title="iOS中的View" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/02/ios-ui-view/" data-id="cm78qvrem000angq282d3d1am" data-title="iOS中的View" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -806,7 +913,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cm74iq3ra000dl9ocb34s9s7x" data-title="iOS中的View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/08/01/ios-view-controllers/" data-id="cm78qvren000dngq2e8mee4oj" data-title="iOS中的View Controller" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -820,69 +927,11 @@
 
 
   
-    <article id="post-swift-encode-decode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/07/31/swift-encode-decode/" class="article-date">
-  <time class="dt-published" datetime="2023-07-31T14:44:27.000Z" itemprop="datePublished">2023-07-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Swift/">Swift</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/31/swift-encode-decode/">Encode和Decode</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>许多编程任务需要用到数据的编码（encode）和解码（decode），把数据转变为一种中间格式，例如通过网络传输数据、把数据存进磁盘、把数据提交给API和服务等。</p>
-<p>Swift标准库定义了一种标准化的数据编码和解码方法。我们可以通过在我们的自定义类型上实现<code>Encodable</code>和<code>Decodable</code>协议来采用该标准方法。</p>
-<h2 id="Codable"><a href="#Codable" class="headerlink" title="Codable"></a>Codable</h2><p>是<code>Encodable</code>和<code>Decodable</code>协议的类型别名</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Codable</span> <span class="operator">=</span> <span class="type">Decodable</span> &amp; <span class="type">Encodable</span></span><br></pre></td></tr></table></figure>
-<p>实现了<code>Codable</code>的类型可以自动被encode和decode</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Landmark</span>: <span class="title class_">Codable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> foundingYear: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> location: <span class="type">Coordinate</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Landmark is still codable after adding these properties.</span></span><br><span class="line">    <span class="keyword">var</span> vantagePoints: [<span class="type">Coordinate</span>]</span><br><span class="line">    <span class="keyword">var</span> metadata: [<span class="type">String</span>: <span class="type">String</span>]</span><br><span class="line">    <span class="keyword">var</span> website: <span class="type">URL</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Coding-keys"><a href="#Coding-keys" class="headerlink" title="Coding keys"></a>Coding keys</h2><p>使用Coding keys主要是为了：</p>
-<ol>
-<li>选择哪些属性被Encode和Decode</li>
-<li>改变Encode和Decode的属性名<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Landmark</span>: <span class="title class_">Codable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> foundingYear: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> location: <span class="type">Coordinate</span></span><br><span class="line">    <span class="keyword">var</span> vantagePoints: [<span class="type">Coordinate</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">CodingKeys</span>: <span class="title class_">String</span>, <span class="title class_">CodingKey</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> name <span class="operator">=</span> <span class="string">&quot;title&quot;</span></span><br><span class="line">        <span class="keyword">case</span> foudingYear <span class="operator">=</span> <span class="string">&quot;founding_date&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> location</span><br><span class="line">        <span class="keyword">case</span> vantagePoints</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="手动Encode和Decode"><a href="#手动Encode和Decode" class="headerlink" title="手动Encode和Decode"></a>手动Encode和Decode</h2><p>如果Swift类型和编码的格式不匹配，可以提供一个<code>Encodable</code>和<code>Decodable</code>的自定义实现</p>
-<p>下面的例子中，<code>elevation</code>嵌套在<code>additionalInfo</code>中，于是自定义了<code>init(from:)</code>和<code>encode(to:)</code>方法，来达到多层级encode和decode的目的</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Coordinate</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> latitude: <span class="type">Double</span></span><br><span class="line">    <span class="keyword">var</span> longitude: <span class="type">Double</span></span><br><span class="line">    <span class="keyword">var</span> elevation: <span class="type">Double</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">CodingKeys</span>: <span class="title class_">String</span>, <span class="title class_">CodingKey</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> latitude</span><br><span class="line">        <span class="keyword">case</span> longitude</span><br><span class="line">        <span class="keyword">case</span> additionalInfo</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">AdditionalInfoKeys</span>: <span class="title class_">String</span>, <span class="title class_">CodingKey</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> elevation</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Coordinate</span>: <span class="title class_">Decodable</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">from</span> <span class="params">decoder</span>: <span class="type">Decoder</span>) <span class="keyword">throws</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> values <span class="operator">=</span> <span class="keyword">try</span> decoder.container(keyedBy: <span class="type">CodingKeys</span>.<span class="keyword">self</span>)</span><br><span class="line">        latitude <span class="operator">=</span> <span class="keyword">try</span> values.decode(<span class="type">Double</span>.<span class="keyword">self</span>, forKey: .latitude)</span><br><span class="line">        longitude <span class="operator">=</span> <span class="keyword">try</span> values.decode(<span class="type">Double</span>.<span class="keyword">self</span>, forKey: .longitude)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> additionalInfo <span class="operator">=</span> <span class="keyword">try</span> values.nestedContainer(keyedBy: <span class="type">AdditionalInfoKeys</span>.<span class="keyword">self</span>, forKey: .additionalInfo)</span><br><span class="line">        elevation <span class="operator">=</span> <span class="keyword">try</span> additionalInfo.decode(<span class="type">Double</span>.<span class="keyword">self</span>, forKey: .elevation)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Coordinate</span>: <span class="title class_">Encodable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">encode</span>(<span class="params">to</span> <span class="params">encoder</span>: <span class="type">Encoder</span>) <span class="keyword">throws</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> container <span class="operator">=</span> encoder.container(keyedBy: <span class="type">CodingKeys</span>.<span class="keyword">self</span>)</span><br><span class="line">        <span class="keyword">try</span> container.encode(latitude, forKey: .latitude)</span><br><span class="line">        <span class="keyword">try</span> container.encode(longitude, forKey: .longitude)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> additionalInfo <span class="operator">=</span> container.nestedContainer(keyedBy: <span class="type">AddtionalInfoKeys</span>.<span class="keyword">self</span>, forKey: .additionalInfo)</span><br><span class="line">        <span class="keyword">try</span> additionalInfo.encode(elevation, forKey: .elevation)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/31/swift-encode-decode/" data-id="cm74iq3rp0025l9oc14px36zk" data-title="Encode和Decode" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -903,7 +952,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bug/" rel="tag">Bug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bug/" rel="tag">Bug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Frontend/" rel="tag">Frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPA/" rel="tag">SPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
     </div>
   </div>
 
@@ -913,7 +962,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/DOM/" style="font-size: 13.33px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 16.67px;">iOS</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/DOM/" style="font-size: 13.33px;">DOM</a> <a href="/tags/Frontend/" style="font-size: 10px;">Frontend</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/SPA/" style="font-size: 10px;">SPA</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 16.67px;">iOS</a>
     </div>
   </div>
 
@@ -935,6 +984,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/17/spa-first-paint/">SPA首屏加载优化</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/14/dom-event-target/">event.target 和 event.currentTarget</a>
           </li>
         
@@ -948,10 +1001,6 @@
         
           <li>
             <a href="/2025/02/12/js-iterator-generator/">JavaScript中的迭代器和生成器</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/11/js-object/">JavaScript中的对象</a>
           </li>
         
       </ul>
