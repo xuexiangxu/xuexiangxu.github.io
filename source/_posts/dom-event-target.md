@@ -83,7 +83,7 @@ document.getElementById('parent').addEventListener('click', function(event) {
 
 - 如果你点击了 `button`，`event.target` 会是 `button` 元素，而 `event.currentTarget` 会是 `parent` 元素。
 
-### 总结：
+### 总结
 
 - **`event.target`**: 触发事件的实际元素。
 - **`event.currentTarget`**: 当前正在处理事件的元素（监听器绑定的元素）。
