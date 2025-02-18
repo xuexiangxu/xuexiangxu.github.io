@@ -77,6 +77,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js-promise" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/18/js-promise/" class="article-date">
+  <time class="dt-published" datetime="2025-02-18T15:12:42.000Z" itemprop="datePublished">2025-02-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/18/js-promise/">手写Promise</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<li><code>promise</code>有三个状态：<code>pending</code>，<code>fulfilled</code>，<code>rejected</code></li>
+<li><code>new Promise</code>时， 需要传递一个<code>executor()</code>执行器，执行器立即执行；</li>
+<li><code>executor</code>接受两个参数，分别是<code>resolve</code>和<code>reject</code>；</li>
+<li><code>promise</code>的默认状态是<code>pending</code>；</li>
+<li><code>promise</code>有一个<code>value</code>保存成功状态的值，可以是undefined&#x2F;thenable&#x2F;promise</li>
+<li><code>promise</code>有一个<code>reason</code>保存失败状态的值</li>
+<li><code>promise</code>只能从<code>pending</code>到<code>rejected</code>, 或者从<code>pending</code>到<code>fulfilled</code>，状态一旦确认，就不会再改变；</li>
+<li><code>promise</code>必须有一个<code>then</code>方法，<code>then</code>接收两个参数，分别是<code>promise</code>成功的回调<code>onFulfilled</code>, 和 <code>promise</code> 失败的回调<code>onRejected</code></li>
+<li>如果调用<code>then</code>时，<code>promise</code> 已经成功，则执行<code>onFulfilled</code>，参数是<code>promise</code>的<code>value</code>；</li>
+<li>如果调用<code>then</code>时，<code>promise</code> 已经失败，那么执行<code>onRejected</code>, 参数是<code>promise</code>的<code>reason</code>；</li>
+<li>如果<code>then</code>中抛出了异常，那么就会把这个异常作为参数，传递给下一个<code>then</code>的失败的回调<code>onRejected</code>；</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyPromise</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">executor</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = <span class="string">&#x27;pending&#x27;</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">value</span> = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">reason</span> = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">onFulfilledCallbacks</span> = [];</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">onRejectedCallbacks</span> = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">resolve</span> = (<span class="params">value</span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">state</span> === <span class="string">&#x27;pending&#x27;</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = <span class="string">&#x27;fulfilled&#x27;</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">value</span> = value;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">onFulfilledCallbacks</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">cb</span>) =&gt;</span> <span class="title function_">cb</span>(value));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">reject</span> = (<span class="params">reason</span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">state</span> === <span class="string">&#x27;pending&#x27;</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = <span class="string">&#x27;rejected&#x27;</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">reason</span> = reason;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">onRejectedCallbacks</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">cb</span>) =&gt;</span> <span class="title function_">cb</span>(reason));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="title function_">executor</span>(resolve, reject);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="title function_">reject</span>(error);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">then</span>(<span class="params">onFulfilled, onRejected</span>) &#123;</span><br><span class="line">    onFulfilled = <span class="keyword">typeof</span> onFulfilled === <span class="string">&#x27;function&#x27;</span> ? onFulfilled : <span class="function">(<span class="params">v</span>) =&gt;</span> v;</span><br><span class="line">    onRejected = <span class="keyword">typeof</span> onRejected === <span class="string">&#x27;function&#x27;</span> ? onRejected : <span class="function">(<span class="params">err</span>) =&gt;</span> &#123; <span class="keyword">throw</span> err; &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MyPromise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">state</span> === <span class="string">&#x27;fulfilled&#x27;</span>) &#123;</span><br><span class="line">        <span class="title function_">queueMicrotask</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> x = <span class="title function_">onFulfilled</span>(<span class="variable language_">this</span>.<span class="property">value</span>);</span><br><span class="line">            <span class="title function_">resolvePromise</span>(x, resolve, reject);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">            <span class="title function_">reject</span>(error);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">state</span> === <span class="string">&#x27;rejected&#x27;</span>) &#123;</span><br><span class="line">        <span class="title function_">queueMicrotask</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> x = <span class="title function_">onRejected</span>(<span class="variable language_">this</span>.<span class="property">reason</span>);</span><br><span class="line">            <span class="title function_">resolvePromise</span>(x, resolve, reject);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">            <span class="title function_">reject</span>(error);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">onFulfilledCallbacks</span>.<span class="title function_">push</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="title function_">queueMicrotask</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">              <span class="keyword">const</span> x = <span class="title function_">onFulfilled</span>(<span class="variable language_">this</span>.<span class="property">value</span>);</span><br><span class="line">              <span class="title function_">resolvePromise</span>(x, resolve, reject);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">              <span class="title function_">reject</span>(error);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">onRejectedCallbacks</span>.<span class="title function_">push</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="title function_">queueMicrotask</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">              <span class="keyword">const</span> x = <span class="title function_">onRejected</span>(<span class="variable language_">this</span>.<span class="property">reason</span>);</span><br><span class="line">              <span class="title function_">resolvePromise</span>(x, resolve, reject);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">              <span class="title function_">reject</span>(error);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">catch</span>(onRejected) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">then</span>(<span class="literal">null</span>, onRejected);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="title function_">resolve</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MyPromise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="title function_">resolve</span>(value));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="title function_">reject</span>(<span class="params">reason</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MyPromise</span>(<span class="function">(<span class="params">_, reject</span>) =&gt;</span> <span class="title function_">reject</span>(reason));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">resolvePromise</span>(<span class="params">x, resolve, reject</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (x <span class="keyword">instanceof</span> <span class="title class_">MyPromise</span>) &#123;</span><br><span class="line">    x.<span class="title function_">then</span>(resolve, reject);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="title function_">resolve</span>(x);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="title class_">MyPromise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="title function_">resolve</span>(<span class="string">&quot;Hello, Promise!&quot;</span>), <span class="number">1000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.<span class="title function_">then</span>(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(value);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Next Step&quot;</span>;</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(value);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/18/js-promise/" data-id="cm7affkdi0015lrpyfx9t20d4" data-title="手写Promise" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-spa-first-paint" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/17/spa-first-paint/" class="article-date">
@@ -233,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/17/spa-first-paint/" data-id="cm78qvrf0001hngq20yca1ahe" data-title="SPA首屏加载优化" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/17/spa-first-paint/" data-id="cm7affkdp0024lrpyfanv017p" data-title="SPA首屏加载优化" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -312,7 +372,7 @@
 <ul>
 <li>如果你点击了 <code>button</code>，<code>event.target</code> 会是 <code>button</code> 元素，而 <code>event.currentTarget</code> 会是 <code>parent</code> 元素。</li>
 </ul>
-<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li><strong><code>event.target</code></strong>: 触发事件的实际元素。</li>
 <li><strong><code>event.currentTarget</code></strong>: 当前正在处理事件的元素（监听器绑定的元素）。</li>
 </ul>
@@ -320,7 +380,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/14/dom-event-target/" data-id="cm78qvrej0005ngq27qmq0k9l" data-title="event.target 和 event.currentTarget" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/14/dom-event-target/" data-id="cm7affkd40005lrpy0jkf4cv7" data-title="event.target 和 event.currentTarget" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -408,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/14/dom-event-bubbling/" data-id="cm78qvreh0003ngq22a1n955q" data-title="事件冒泡" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/14/dom-event-bubbling/" data-id="cm7affkd30003lrpy7xao8sry" data-title="事件冒泡" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -576,7 +636,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/12/js-debounce-throttle/" data-id="cm78qvrep000kngq2cdz7ekmi" data-title="JavaScript 防抖（Debounce）和节流（Throttle）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/12/js-debounce-throttle/" data-id="cm7affkdc000klrpyayko6z8q" data-title="JavaScript 防抖（Debounce）和节流（Throttle）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -725,7 +785,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/12/js-iterator-generator/" data-id="cm78qvreu000sngq27eqt6s74" data-title="JavaScript中的迭代器和生成器" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/12/js-iterator-generator/" data-id="cm7affkdf000slrpy5r6yck0w" data-title="JavaScript中的迭代器和生成器" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -862,7 +922,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm78qvrez0019ngq23ftyh1w1" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-object/" data-id="cm7affkdi0012lrpy55h2691f" data-title="JavaScript中的对象" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1018,7 +1078,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm78qvrex0012ngq20t0yfrha" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/11/js-this/" data-id="cm7affkdj0019lrpy5hz9huzr" data-title="JavaScript 中的 this" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1083,7 +1143,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm78qvreo000gngq26m1na53z" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-closure/" data-id="cm7affkda000glrpy7ijzarv0" data-title="JavaScript中的闭包" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1257,111 +1317,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm78qvres000nngq215nga5ie" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-js-lexical-scope" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/02/06/js-lexical-scope/" class="article-date">
-  <time class="dt-published" datetime="2025-02-06T09:59:19.000Z" itemprop="datePublished">2025-02-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/02/06/js-lexical-scope/">JavaScript 的词法作用域（Lexical Scope）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="1-什么是词法作用域？"><a href="#1-什么是词法作用域？" class="headerlink" title="1. 什么是词法作用域？"></a><strong>1. 什么是词法作用域？</strong></h3><p><strong>词法作用域（Lexical Scope）</strong> 是指 <strong>变量的作用域</strong> 在 <strong>代码编写时</strong> 就已经确定，而不是在代码运行时动态决定的。</p>
-<p>换句话说，<strong>作用域由代码的嵌套结构决定，而不是由函数调用方式决定</strong>。</p>
-<hr>
-<h3 id="2-词法作用域示例"><a href="#2-词法作用域示例" class="headerlink" title="2. 词法作用域示例"></a><strong>2. 词法作用域示例</strong></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// 词法作用域：inner() 可以访问 outer() 里的变量 a</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">inner</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">outer</span>(); <span class="comment">// 输出：Hello</span></span><br></pre></td></tr></table></figure>
-<p>🔹 <strong>解释：</strong></p>
-<ul>
-<li><code>inner()</code> 是 <strong>定义在 <code>outer()</code> 内部</strong> 的，所以 <code>inner()</code> 可以访问 <code>outer()</code> 作用域中的变量 <code>a</code>。</li>
-<li><code>a</code> 在 <code>inner()</code> <strong>外部作用域定义，但仍然可以被访问</strong>，这就是 <strong>词法作用域</strong>。</li>
-</ul>
-<hr>
-<h3 id="3-词法作用域-vs-动态作用域"><a href="#3-词法作用域-vs-动态作用域" class="headerlink" title="3. 词法作用域 vs 动态作用域"></a><strong>3. 词法作用域 vs 动态作用域</strong></h3><h4 id="🔹-词法作用域（JavaScript-使用）"><a href="#🔹-词法作用域（JavaScript-使用）" class="headerlink" title="🔹 词法作用域（JavaScript 使用）"></a><strong>🔹 词法作用域（JavaScript 使用）</strong></h4><p>作用域在 <strong>定义时</strong> 确定，与 <strong>调用方式无关</strong>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> inner;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fn = <span class="title function_">outer</span>(); <span class="comment">// `fn` 现在是 `inner` 函数</span></span><br><span class="line"><span class="title function_">fn</span>(); <span class="comment">// 输出：Hello</span></span><br></pre></td></tr></table></figure>
-<p>即使 <code>fn</code> 在 <code>outer()</code> 执行完后才调用，它仍然能访问 <code>outer()</code> 作用域中的 <code>a</code>，因为 <strong>作用域在定义时就已确定</strong>。</p>
-<h4 id="🔹-动态作用域（JavaScript-不使用）"><a href="#🔹-动态作用域（JavaScript-不使用）" class="headerlink" title="🔹 动态作用域（JavaScript 不使用）"></a><strong>🔹 动态作用域（JavaScript 不使用）</strong></h4><p>一些编程语言（如 Bash、Perl 早期版本）使用 <strong>动态作用域（Dynamic Scope）</strong>，即 <strong>作用域取决于函数的调用位置</strong>，而不是定义位置。但 <strong>JavaScript 不使用动态作用域</strong>，而是 <strong>词法作用域</strong>。</p>
-<hr>
-<h3 id="4-嵌套作用域（作用域链）"><a href="#4-嵌套作用域（作用域链）" class="headerlink" title="4. 嵌套作用域（作用域链）"></a><strong>4. 嵌套作用域（作用域链）</strong></h3><p>JavaScript 的作用域是 <strong>嵌套</strong> 的，每个函数定义时都会“记住”它创建时的作用域。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> globalVar = <span class="string">&quot;I am global&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> outerVar = <span class="string">&quot;I am outer&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> innerVar = <span class="string">&quot;I am inner&quot;</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(globalVar); <span class="comment">// ✅ 访问全局作用域变量</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(outerVar);  <span class="comment">// ✅ 访问外部作用域变量</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(innerVar);  <span class="comment">// ✅ 访问自身作用域变量</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">inner</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">outer</span>();</span><br></pre></td></tr></table></figure>
-<p>🔹 <strong>作用域链查找顺序：</strong></p>
-<ol>
-<li>先在 <code>inner()</code> 内查找变量。</li>
-<li>如果找不到，就往 <code>outer()</code> 作用域查找。</li>
-<li>如果还找不到，就往 <strong>全局作用域</strong> 查找。</li>
-<li>找不到就报错 <code>ReferenceError</code>。</li>
-</ol>
-<hr>
-<h3 id="5-块级作用域"><a href="#5-块级作用域" class="headerlink" title="5. 块级作用域"></a><strong>5. 块级作用域</strong></h3><p>ES6 之前，JavaScript 只有 <strong>函数作用域（Function Scope）</strong>，但 ES6 引入了 <code>let</code> 和 <code>const</code>，支持 <strong>块级作用域（Block Scope）</strong>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> x = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">const</span> y = <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// ❌ ReferenceError: x is not defined</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(y); <span class="comment">// ❌ ReferenceError: y is not defined</span></span><br></pre></td></tr></table></figure>
-<p>🔹 <strong>作用域类型：</strong></p>
-<ul>
-<li><code>var</code>：<strong>函数作用域</strong></li>
-<li><code>let</code> &#x2F; <code>const</code>：<strong>块级作用域</strong></li>
-<li><code>function</code>：<strong>函数作用域</strong></li>
-<li><code>&#123;&#125;</code>（代码块）：<strong>块级作用域（仅 <code>let</code> 和 <code>const</code>）</strong></li>
-</ul>
-<hr>
-<h3 id="6-闭包与词法作用域"><a href="#6-闭包与词法作用域" class="headerlink" title="6. 闭包与词法作用域"></a><strong>6. 闭包与词法作用域</strong></h3><p><strong>闭包（Closure）</strong> 是 <strong>函数可以“记住”其定义时的作用域，即使函数在作用域外调用</strong>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">    count++;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> counter = <span class="title function_">outer</span>();</span><br><span class="line"><span class="title function_">counter</span>(); <span class="comment">// 输出：1</span></span><br><span class="line"><span class="title function_">counter</span>(); <span class="comment">// 输出：2</span></span><br></pre></td></tr></table></figure>
-<p>🔹 <code>inner()</code> 记住了 <code>outer()</code> 的作用域，即使 <code>outer()</code> 已经执行完毕，<code>count</code> 仍然保留在内存中。这就是 <strong>闭包的作用</strong>，它依赖于 <strong>词法作用域</strong>。</p>
-<hr>
-<h3 id="7-词法作用域总结"><a href="#7-词法作用域总结" class="headerlink" title="7. 词法作用域总结"></a><strong>7. 词法作用域总结</strong></h3><p>✅ <strong>作用域在代码编写时就已确定，而不是运行时决定</strong>。<br>✅ <strong>内部函数可以访问外部作用域的变量（作用域链）</strong>。<br>✅ <strong>JavaScript 不是动态作用域，而是词法作用域</strong>。<br>✅ <strong>闭包（Closure）依赖词法作用域，使得函数可以记住创建时的作用域</strong>。  </p>
-<hr>
-<h3 id="8-常见问题"><a href="#8-常见问题" class="headerlink" title="8. 常见问题"></a><strong>8. 常见问题</strong></h3><h4 id="1-下面代码的输出是什么？"><a href="#1-下面代码的输出是什么？" class="headerlink" title="(1) 下面代码的输出是什么？"></a><strong>(1) 下面代码的输出是什么？</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">test</span>();</span><br></pre></td></tr></table></figure>
-<p>✅ **输出：<code>undefined</code>**（不是 <code>10</code>！）<br>🔹 <strong>原因</strong>：  </p>
-<ul>
-<li>JavaScript 变量提升（Hoisting）：<code>var a</code> 被提升到 <code>test()</code> 作用域顶部，默认为 <code>undefined</code>，但赋值 <code>20</code> 发生在 <code>console.log(a)</code> 之后。</li>
-</ul>
-<p>等价于：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> a; <span class="comment">// 变量提升，默认值 `undefined`</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// undefined</span></span><br><span class="line">  a = <span class="number">20</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-如何让-setTimeout-循环正确打印-0-1-2-3-4？"><a href="#2-如何让-setTimeout-循环正确打印-0-1-2-3-4？" class="headerlink" title="(2) 如何让 setTimeout 循环正确打印 0, 1, 2, 3, 4？"></a><strong>(2) 如何让 <code>setTimeout</code> 循环正确打印 <code>0, 1, 2, 3, 4</code>？</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(i), <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>🔴 <strong>错误输出：<code>5, 5, 5, 5, 5</code></strong></p>
-<ul>
-<li>因为 <code>var</code> 是 <strong>函数作用域</strong>，循环结束后，<code>i</code> 的值是 <code>5</code>，所有 <code>setTimeout</code> 共享同一个 <code>i</code>。</li>
-</ul>
-<p>✅ <strong>解决方法：使用 <code>let</code></strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(i), <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>✅ <strong>或者使用闭包</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">  (<span class="keyword">function</span> (<span class="params">j</span>) &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(j), <span class="number">1000</span>);</span><br><span class="line">  &#125;)(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/06/js-lexical-scope/" data-id="cm78qvrev000vngq2e9p4eswb" data-title="JavaScript 的词法作用域（Lexical Scope）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/10/js-hoisting/" data-id="cm7affkde000nlrpyfzqmf8xc" data-title="JavaScript 提升（Hoisting）" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1432,6 +1388,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/18/js-promise/">手写Promise</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/17/spa-first-paint/">SPA首屏加载优化</a>
           </li>
         
@@ -1445,10 +1405,6 @@
         
           <li>
             <a href="/2025/02/12/js-debounce-throttle/">JavaScript 防抖（Debounce）和节流（Throttle）</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/12/js-iterator-generator/">JavaScript中的迭代器和生成器</a>
           </li>
         
       </ul>
