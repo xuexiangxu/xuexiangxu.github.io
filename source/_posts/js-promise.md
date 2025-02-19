@@ -3,7 +3,7 @@ title: 手写Promise
 date: 2025-02-18 15:12:42
 tags: [JavaScript]
 categories:
-  - [JavaScript]
+- [JavaScript]
 ---
 
 ## 实现
